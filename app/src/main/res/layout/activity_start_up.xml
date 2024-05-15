@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg2"
+    tools:context=".StartUp">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:background="@drawable/app_bg2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="320dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/shadow"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded"
+            android:gravity="center"
+            android:text="PICK PLAYER1'S MARK"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#A6FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/track"
+            android:gravity="center"
+            android:padding="0dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonX"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/track"
+                android:fontFamily="@font/alongheavy"
+                android:gravity="center"
+                android:text="X"
+                android:textColor="#99A1A5B6"
+                android:textSize="40sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonO"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/thumb"
+                android:fontFamily="@font/alongheavy"
+                android:gravity="center"
+                android:text="O"
+                android:textColor="@color/darkblue"
+                android:textSize="40sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded"
+            android:gravity="center"
+            android:text="REMEMBER X GOES FIRST"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#81FFFFFF"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/vsCPu"
+        android:layout_width="316dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/ylwbutton"
+        android:gravity="center"
+        android:text="NEW GAME (VS CPU)"
+        android:textColor="@color/yellowO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/vsPlayer"
+        android:layout_width="316dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bbuebtn"
+        android:gravity="center"
+        android:text="NEW GAME (VS PLAYER)"
+        android:textColor="@color/blueX"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vsCPu" />
+
+    <LinearLayout
+        android:id="@+id/viewChooseBoard"
+        android:layout_width="388dp"
+        android:layout_height="270dp"
+        android:layout_marginTop="44dp"
+        android:background="@color/darkblue"
+        android:elevation="100dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/backBtn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@color/darkblue"
+            android:drawableLeft="@drawable/back_button_foreground"
+            android:maxHeight="48dp"
+            android:text="CHOOSE YOUR BOARD"
+            android:textAlignment="center"
+            android:textColor="#A6FFFFFF" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/by3Button"
+            android:layout_width="316dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/ylwbutton"
+            android:gravity="center"
+            android:text="3 X 3"
+            android:textColor="@color/yellowO"
+            android:textSize="20sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/by5Button"
+            android:layout_width="316dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/bbuebtn"
+            android:gravity="center"
+            android:text="5 X 5"
+            android:textColor="@color/blueX"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>
