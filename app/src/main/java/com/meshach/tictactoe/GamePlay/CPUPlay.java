@@ -3,8 +3,10 @@ package com.meshach.tictactoe.GamePlay;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -12,13 +14,16 @@ import androidx.core.content.ContextCompat;
 import com.meshach.tictactoe.R;
 
 import java.util.List;
+import java.util.Map;
 
 public class CPUPlay extends AppCompatActivity {
 
     private List<TableRow> rowsList;
     private Context context;
     private Player currentPlayer;
-    private EditText editText;
+    private  boolean gameOver = false;
+    private UserPlay user;
+    private Map<EditText, Pair<Integer, Integer>> editTextPositions;
 
     public CPUPlay(Context context, List<TableRow> rowsList, Player currentPlayer ) {
         this.context = context;
@@ -26,13 +31,15 @@ public class CPUPlay extends AppCompatActivity {
         this.currentPlayer = currentPlayer;
     }
 
-     public void isCPUPlayer() {
-         new Handler().postDelayed(new Runnable() {
-             @Override
-             public void run() {
+    public void setEditTextPositions(Map<EditText, Pair<Integer, Integer>> editTextPositions) {
+        this.editTextPositions = editTextPositions;
+    }
+
+    public void isCPUPlayer() {
+
+        user = new UserPlay(context, rowsList);
+
                  easyMode();
-             }
-         }, 300);
 
 
     }
@@ -41,15 +48,12 @@ public class CPUPlay extends AppCompatActivity {
         for (TableRow tableRow : rowsList) {
             EditText editText = null;
             String editTextText = null;
-            Log.d("CPUPlaying", "before Loop");
 
             for (int i = 0; i < tableRow.getChildCount(); i++) {
                 if (tableRow.getChildAt(i) instanceof EditText) {
                     editText = (EditText) tableRow.getChildAt(i);
                     editTextText = editText.getText().toString();
                     if (editTextText.isEmpty()) {
-                        //this.editText = editText;
-                        //editText.performClick();
                         editTextText = currentPlayer.getPlayerSymbol();
                         setEditTextProperties (editText, editTextText);
                         return;
@@ -60,10 +64,6 @@ public class CPUPlay extends AppCompatActivity {
         }
     }
 
-    public EditText getEditText () {
-        Log.d("CPUPlaying", "Fetting EditText");
-        return editText;//returns null
-    }
     private void hardMode() {
 
     }
@@ -76,5 +76,7 @@ public class CPUPlay extends AppCompatActivity {
         }
         editText.setText(text);
     }
+
+
 
 }

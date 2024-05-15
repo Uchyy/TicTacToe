@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initializeBoard();
         Player currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
-        if (currentPlayer.isCPU()) ttt.startGame();
+        if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
 
         Log.d("ROWSLIST: ", String.valueOf(rowsList.size()));
 

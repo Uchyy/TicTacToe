@@ -55,11 +55,17 @@ public class TTT extends AppCompatActivity {
             cpu = new CPUPlay(context, rowsList, currentPlayer);
             cpu.isCPUPlayer();
 
+            if (checkForWin() || checkForDraw()) {
+                gameOver = true;
+                // Handle game over
+            }
+
         } else {
 
             EditText editText = (EditText) view;
-            if (editText.getText().toString().isEmpty() )  setEditTextProperties(editText, text);
-
+            if (editText.getText().toString().isEmpty()) {
+                setEditTextProperties(editText, text);
+            }
         }
 
         if (checkForWin() || checkForDraw()) {
@@ -67,31 +73,19 @@ public class TTT extends AppCompatActivity {
             // Handle game over
         } else {
             switchPlayer(); // Switch to the other player
-            if (currentPlayer.isCPU()) startGame(rowsList.get(0).getChildAt(0));
+            if (currentPlayer.isCPU()) {
+                new Handler().postDelayed(() -> startGame(null), 300);
+            }
         }
 
-    }
-
-    public void startGame() {
-        user = new UserPlay(context, rowsList);
-        cpu = new CPUPlay(context, rowsList, currentPlayer);
-        cpu.isCPUPlayer();
-
-        if (checkForWin() || checkForDraw()) {
-            gameOver = true;
-            // Handle game over
-        } else {
-            switchPlayer(); // Switch to the other player
-            //if (currentPlayer.isCPU()) startGame(rowsList.get(0).getChildAt(0));
-        }
     }
 
     private boolean checkForWin( ) {
-
-        if (user.checkRow() || user.checkCol() || user.checkDiag())  {
+        boolean win = user.checkRow() || user.checkCol() || user.checkDiag();
+        if (win) {
             Toast.makeText(context, "WINNER WINNER!!", Toast.LENGTH_SHORT).show();
         }
-        return user.checkRow() || user.checkCol() || user.checkDiag(); // Placeholder
+        return win;
     }
 
     private boolean checkForDraw() {
