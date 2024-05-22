@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -112,7 +113,8 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             intent.putExtra("board", board);
             intent.putExtra("vsCPU", vsCPU);
             anim.fadeOut(linearLayoutBoard);
-            startActivity(intent);
+            //anim.fadeOutActivity(this);
+            new Handler().postDelayed(() -> startActivity(intent), 1000);
         }
 
     }

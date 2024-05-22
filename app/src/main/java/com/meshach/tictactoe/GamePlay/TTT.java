@@ -20,7 +20,7 @@ import java.util.Map;
 import android.os.Handler;
 
 public class TTT extends AppCompatActivity {
-    private Player player1, player2, currentPlayer;
+    private Player player1, player2, currentPlayer, playerX;
     private List<TableRow> rowsList;
     private  boolean gameOver = false;
     private Context context;
@@ -34,6 +34,7 @@ public class TTT extends AppCompatActivity {
         this.player2 = player2;
         this.rowsList = rowsList;
         currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
+        playerX = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
         this.editTextPositions = editTextPositions;
 
     }
@@ -104,7 +105,15 @@ public class TTT extends AppCompatActivity {
         return true;
     }
 
+    public void restartGame () {
 
+        if (playerX.isCPU()) {
+            switchPlayer();
+            startGame(rowsList.get(0).getChildAt(0));
+        }
+
+
+    }
     private void switchPlayer() {
         currentPlayer = (currentPlayer == player1) ? player2 : player1;
     }

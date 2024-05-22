@@ -10,13 +10,16 @@ import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.slider.Slider;
 import com.meshach.tictactoe.GamePlay.CPUPlay;
 import com.meshach.tictactoe.GamePlay.Player;
 import com.meshach.tictactoe.GamePlay.TTT;
@@ -33,9 +36,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ConstraintLayout constraintLayout;
     private List<TableRow> rowsList = new ArrayList<>();
     private boolean isPlayerX;
-    Player player1, player2, playerX;
+    private Player player1, player2, currentPlayer;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
-    TTT ttt;
+    private TTT ttt;
+    private String mode;
+    private Button restart;
+    private Slider sliderMode;
+    private TextView sliderLabel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tableLayout = constraintLayout.findViewById(R.id.gameBoard);
         gameBoard = new GameBoard();
 
-
         player1 = new Player(userPlayer, vsCPU);
         if (vsCPU) {
             player2 = new Player(p2);
@@ -70,13 +77,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("Player 2: ", player2.toString());
 
         initializeBoard();
-        Player currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
+        currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
         if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
 
         Log.d("ROWSLIST: ", String.valueOf(rowsList.size()));
 
         //ttt.setPositionsMap(editTextPositions);
 
+        sliderMode = findViewById(R.id.sliderMode);
+        sliderLabel = findViewById(R.id.labelMode);
+
+        updateSliderLabel(sliderMode.getValue());
+
+        restart = findViewById(R.id.restartBtn);
+        sliderMode.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(Slider slider, float value, boolean fromUser) {
+                updateSliderLabel(value);
+            }
+        });
+
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reloadTableLayout();
+            }
+        });
+
+    }
+
+    private void reloadTableLayout() {
+        Log.d("Restarting", "Table alyout restarting");
+        tableLayout.removeAllViews();
+        rowsList.clear();
+        initializeBoard();
+        ttt.restartGame();
+    }
+
+    private void updateSliderLabel(float value) {
+        String label;
+        if (value == 50) {
+            label = "EASY";
+        } else if (value == 100) {
+            label = "MEDIUM";
+        } else if (value == 150) {
+            label = "HARD";
+        } else {
+            label = "";
+        }
+        sliderLabel.setText(label);
+        mode = label;
     }
 
     public void initializeBoard() {
@@ -100,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     params.height = 250;
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 45);
                 } else {
-                    params.setMargins(10, 10, 10, 10);
+                    params.setMargins(20, 20, 20, 20);
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
                 }
 
@@ -132,8 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public List<TableRow> getRowsList() {
-        return rowsList;
+    public String getMode() {
+        return mode;
     }
 
     public Context getContext() {
