@@ -7,22 +7,106 @@
     tools:context=".StartUp2">
 
 
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="63dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="120dp"
-        android:ems="10"
-        android:layout_margin="10dp"
-        android:inputType="textCapCharacters"
-        android:text="X"
-        android:gravity="center"
-        android:textSize="40sp"
-        android:background="@drawable/edittextbg"
-        android:fontFamily="@font/alongheavy"
-        android:textColor="@color/blueX"
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="540dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/textviewylw"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="X (WINS)"
+                android:textColor="@color/darkblue"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/xtextview"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:fontFamily="@font/bowlby_one"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/darkblue"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/graytextview"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="TIES"
+                android:textColor="@color/darkblue"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/draw"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:fontFamily="@font/bowlby_one"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/darkblue"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bluetextview"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="O (WINS)"
+                android:textColor="@color/darkblue"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/otextview"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:fontFamily="@font/bowlby_one"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/darkblue"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

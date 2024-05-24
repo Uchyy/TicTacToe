@@ -73,23 +73,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ttt = new TTT (player1, player2, rowsList, editTextPositions);
         ttt.setContext(getApplicationContext());
-        Log.d("Player 1: ", player1.toString());
-        Log.d("Player 2: ", player2.toString());
 
         initializeBoard();
         currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
         if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
 
-        Log.d("ROWSLIST: ", String.valueOf(rowsList.size()));
-
-        //ttt.setPositionsMap(editTextPositions);
-
         sliderMode = findViewById(R.id.sliderMode);
         sliderLabel = findViewById(R.id.labelMode);
-
         updateSliderLabel(sliderMode.getValue());
 
-        restart = findViewById(R.id.restartBtn);
         sliderMode.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(Slider slider, float value, boolean fromUser) {
@@ -97,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        restart = findViewById(R.id.restartBtn);
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
