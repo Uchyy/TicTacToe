@@ -5,16 +5,18 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.meshach.tictactoe.GamePlay.Player;
+import com.meshach.tictactoe.CPUPlaying.CPUPlay;
+import com.meshach.tictactoe.MainActivity;
 import com.meshach.tictactoe.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import android.os.Handler;
@@ -52,8 +54,9 @@ public class TTT extends AppCompatActivity {
         user = new UserPlay(context, rowsList);
 
         if (currentPlayer.isCPU()) {
-            //makeCPUMove();
-            cpu = new CPUPlay(context, rowsList, currentPlayer);
+            cpu = new CPUPlay(context, rowsList, currentPlayer, editTextPositions);
+            //MainActivity activity = new MainActivity();
+            //String mode = activity.getMode();
             cpu.isCPUPlayer();
 
             if (checkForWin() || checkForDraw()) {
@@ -78,7 +81,6 @@ public class TTT extends AppCompatActivity {
                 new Handler().postDelayed(() -> startGame(null), 300);
             }
         }
-
     }
 
     private boolean checkForWin( ) {
@@ -92,8 +94,6 @@ public class TTT extends AppCompatActivity {
     private boolean checkForDraw() {
         // Iterate over all EditText views or board positions
         count++;
-
-        Log.d("COUNT", "Count is: "+count );
 
         for (EditText editText : editTextPositions.keySet()) {
             if (editText.getText().toString().isEmpty()) {
@@ -111,9 +111,8 @@ public class TTT extends AppCompatActivity {
             switchPlayer();
             startGame(rowsList.get(0).getChildAt(0));
         }
-
-
     }
+
     private void switchPlayer() {
         currentPlayer = (currentPlayer == player1) ? player2 : player1;
     }
@@ -128,7 +127,19 @@ public class TTT extends AppCompatActivity {
         editText.setText(text);
     }
 
+    public Map<EditText, String> getGameState() {
+        Map<EditText, String> gameState = new HashMap<>();
+        for (EditText editText : editTextPositions.keySet()) {
+            gameState.put(editText, editText.getText().toString());
+        }
+        return gameState;
+    }
 
+    public void restoreGameState(Map<EditText, String> gameState) {
+        for (Map.Entry<EditText, String> entry : gameState.entrySet()) {
+            entry.getKey().setText(entry.getValue());
+        }
+    }
 
 
 }

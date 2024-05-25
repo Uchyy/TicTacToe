@@ -1,4 +1,4 @@
-package com.meshach.tictactoe.GamePlay;
+package com.meshach.tictactoe.CPUPlaying;
 
 import android.content.Context;
 import android.os.Handler;
@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.meshach.tictactoe.GamePlay.Player;
+import com.meshach.tictactoe.GamePlay.UserPlay;
+import com.meshach.tictactoe.MainActivity;
 import com.meshach.tictactoe.R;
 
 import java.util.ArrayList;
@@ -24,29 +27,49 @@ public class CPUPlay extends AppCompatActivity {
     private Context context;
     private Player currentPlayer;
     private  boolean gameOver = false;
-    private UserPlay user;
+    private  String mode;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
+    private List <Pair<Integer, Integer>> emptyCells = new ArrayList<>();
 
     private String [] boardStrings;
 
-    public CPUPlay(Context context, List<TableRow> rowsList, Player currentPlayer ) {
+    public CPUPlay(Context context, List<TableRow> rowsList, Player currentPlayer, Map<EditText, Pair<Integer, Integer>> editTextPositions ) {
         this.context = context;
         this.rowsList = rowsList;
         this.currentPlayer = currentPlayer;
-    }
-
-    public void setEditTextPositions(Map<EditText, Pair<Integer, Integer>> editTextPositions) {
         this.editTextPositions = editTextPositions;
     }
 
-    public void isCPUPlayer() {
-
-        user = new UserPlay(context, rowsList);
-
-                 mediumMode();
-
+    public CPUPlay () {
 
     }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public void isCPUPlayer() {
+        MainActivity activity = new MainActivity();
+        String mode = activity.getMode();
+        Log.d("Mode is: ", mode);
+
+        switch(mode) {
+            case "EASY":
+                easyMode();
+                break;
+            case "MEDIUM":
+                mediumMode();
+                break;
+            case "HARD":
+                CPUHard hard = new CPUHard(rowsList, editTextPositions, currentPlayer, context);
+                hard.hardMove();
+            default:
+                mediumMode();
+        }
+
+    }
+
+    //public void setMode (String mode) {this.mode = mode;}
 
     private void easyMode() {
         for (TableRow tableRow : rowsList) {
@@ -96,103 +119,20 @@ public class CPUPlay extends AppCompatActivity {
             mediumMode();
     }
 
-    private void hardMode() {
-
-        TableRow[] rowsArray = rowsList.toArray(new TableRow[0]);
-        List <Pair<Integer, Integer>> emptyCells = getEmptyCells ();
-
-        for (Pair<Integer, Integer> pair: emptyCells ) {
-
-        }
-
-
-    }
-    private int evaluate(TableRow [] board) {
-        // Check rows, columns, and diagonals for a win
-        // Return 10 if "X" wins, -10 if "O" wins, or 0 otherwise
-
-        // Check rows
-        for (TableRow row : board) {
-            String line = "";
-            for (int i = 0; i < row.getChildCount(); i++) {
-                EditText cell = (EditText) row.getChildAt(i);
-                line += cell.getText().toString();
-            }
-            if (line.equals("XXX"))
-                return 10;
-            else if (line.equals("OOO"))
-                return -10;
-        }
-
-        // Check columns
-        for (int col = 0; col < board.length; col++) {
-            String line = "";
-            for (TableRow row : board) {
-                EditText cell = (EditText) row.getChildAt(col);
-                line += cell.getText().toString();
-            }
-            if (line.equals("XXX"))
-                return 10;
-            else if (line.equals("OOO"))
-                return -10;
-        }
-
-        // Check diagonals
-        String line1 = "";
-        String line2 = "";
-        for (int i = 0; i < board.length; i++) {
-            line1 += ((EditText) board[i].getChildAt(i)).getText().toString();
-            line2 += ((EditText) board[i].getChildAt(board.length - 1 - i)).getText().toString();
-        }
-        if (line1.equals("XXX") || line2.equals("XXX"))
-            return 10;
-        else if (line1.equals("OOO") || line2.equals("OOO"))
-            return -10;
-
-        return 0;
-    }
-
-    private  String [] getStringArray
-
-    private List <Pair<Integer, Integer>> getEmptyCells () {
-
-        List <Pair<Integer, Integer>> emptyCells = new ArrayList<>();
-        for (TableRow tableRow : rowsList) {
-            EditText editText = null;
-            String editTextText = null;
-
-            for (int i = 0; i < tableRow.getChildCount(); i++) {
-                if (tableRow.getChildAt(i) instanceof EditText) {
-                    editText = (EditText) tableRow.getChildAt(i);
-                    editTextText = editText.getText().toString();
-                    if (editTextText.isEmpty()) {
-                        emptyCells.add(editTextPositions.get(editText));
-                    }
-                }
-            }
-        }
-
-        return  emptyCells;
-    }
-
     private EditText getRandomEditText() {
-        // Ensure there are rows available
         if (rowsList == null || rowsList.isEmpty()) {
             return null; // Or handle the case appropriately
         }
 
         Random random = new Random();
 
-        // Select a random TableRow
         int rowIndex = random.nextInt(rowsList.size());
         TableRow selectedRow = rowsList.get(rowIndex);
 
-        // Ensure the TableRow has children
         if (selectedRow.getChildCount() == 0) {
             return null; // Or handle the case appropriately
         }
 
-        // Select a random EditText within the TableRow
         int editTextIndex = random.nextInt(selectedRow.getChildCount());
         return (EditText) selectedRow.getChildAt(editTextIndex);
     }
@@ -206,7 +146,6 @@ public class CPUPlay extends AppCompatActivity {
         }
         editText.setText(text);
     }
-
 
 
 }

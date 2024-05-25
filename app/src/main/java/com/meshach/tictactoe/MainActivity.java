@@ -16,20 +16,30 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.slider.Slider;
-import com.meshach.tictactoe.GamePlay.CPUPlay;
+import com.meshach.tictactoe.CPUPlaying.CPUPlay;
 import com.meshach.tictactoe.GamePlay.Player;
 import com.meshach.tictactoe.GamePlay.TTT;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    // Define keys for your state variables
+    private static final String KEY_BOARD_SIZE = "board_size";
+    private static final String KEY_USER_PLAYER = "user_player";
+    private static final String KEY_VS_CPU = "vs_cpu";
+    private static final String KEY_CURRENT_PLAYER = "current_player";
+    private static final String KEY_EDIT_TEXT_POSITIONS = "edit_text_positions";
+    private static final String KEY_GAME_STATE = "game_state";
+
     private GameBoard gameBoard;
     private TableLayout tableLayout;
     private String userPlayer; int boardSize; boolean vsCPU;
@@ -39,10 +49,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Player player1, player2, currentPlayer;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private TTT ttt;
-    private String mode;
+    private String mode = "EASY";
     private Button restart;
     private Slider sliderMode;
     private TextView sliderLabel;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        reloadTableLayout();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,30 +69,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().hide();
         }
 
-        Intent intent = getIntent();
-        boardSize = intent.getIntExtra("board", 0);
-        userPlayer = intent.getStringExtra("player1");
-        vsCPU = intent.getBooleanExtra("vsCPU", true);
-        String p2 = (userPlayer.equals("X")) ? "O" : "X";
-        editTextPositions = new HashMap<>();
-
-        constraintLayout = findViewById(R.id.coordinatorLayout);
-        tableLayout = constraintLayout.findViewById(R.id.gameBoard);
-        gameBoard = new GameBoard();
-
-        player1 = new Player(userPlayer, vsCPU);
-        if (vsCPU) {
-            player2 = new Player(p2);
+        if (savedInstanceState != null) {
+            // Restore state here
+            boardSize = savedInstanceState.getInt(KEY_BOARD_SIZE);
+            userPlayer = savedInstanceState.getString(KEY_USER_PLAYER);
+            vsCPU = savedInstanceState.getBoolean(KEY_VS_CPU);
+            currentPlayer = (Player) savedInstanceState.getSerializable(KEY_CURRENT_PLAYER);
+            editTextPositions = (HashMap<EditText, Pair<Integer, Integer>>) savedInstanceState.getSerializable(KEY_EDIT_TEXT_POSITIONS);
+            ttt.restoreGameState((HashMap<EditText, String>) savedInstanceState.getSerializable(KEY_GAME_STATE));
         } else {
-            player2 = new Player(p2, vsCPU);
+            // Initial setup if no saved state
+            Intent intent = getIntent();
+            boardSize = intent.getIntExtra("board", 0);
+            userPlayer = intent.getStringExtra("player1");
+            vsCPU = intent.getBooleanExtra("vsCPU", true);
+            String p2 = (userPlayer.equals("X")) ? "O" : "X";
+            editTextPositions = new HashMap<>();
+
+            constraintLayout = findViewById(R.id.coordinatorLayout);
+            tableLayout = findViewById(R.id.gameBoard);
+            gameBoard = new GameBoard();
+
+            player1 = new Player(userPlayer, vsCPU);
+            if (vsCPU) {
+                player2 = new Player(p2);
+            } else {
+                player2 = new Player(p2, vsCPU);
+            }
+
+            ttt = new TTT(player1, player2, rowsList, editTextPositions);
+            ttt.setContext(getApplicationContext());
+            tableLayout = constraintLayout.findViewById(R.id.gameBoard);
+
+            initializeBoard();
+            currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
+            if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
+
         }
 
-        ttt = new TTT (player1, player2, rowsList, editTextPositions);
-        ttt.setContext(getApplicationContext());
+        setupUIComponents();
+    }
 
-        initializeBoard();
-        currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
-        if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_BOARD_SIZE, boardSize);
+        outState.putString(KEY_USER_PLAYER, userPlayer);
+        outState.putBoolean(KEY_VS_CPU, vsCPU);
+        outState.putSerializable(KEY_CURRENT_PLAYER, (Serializable) currentPlayer);
+        outState.putSerializable(KEY_EDIT_TEXT_POSITIONS, (HashMap<EditText, Pair<Integer, Integer>>) editTextPositions);
+        outState.putSerializable(KEY_GAME_STATE, (Serializable) ttt.getGameState());
+    }
+
+    private void setupUIComponents() {
 
         sliderMode = findViewById(R.id.sliderMode);
         sliderLabel = findViewById(R.id.labelMode);
@@ -84,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sliderMode.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
-            public void onValueChange(Slider slider, float value, boolean fromUser) {
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 updateSliderLabel(value);
             }
         });
@@ -96,13 +141,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 reloadTableLayout();
             }
         });
-
     }
-
     private void reloadTableLayout() {
         Log.d("Restarting", "Table alyout restarting");
         tableLayout.removeAllViews();
         rowsList.clear();
+        editTextPositions.clear();
         initializeBoard();
         ttt.restartGame();
     }
@@ -120,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         sliderLabel.setText(label);
         mode = label;
+        Log.d("1> Mode is: ", mode);
+        reloadTableLayout();
     }
 
     public void initializeBoard() {
@@ -176,11 +222,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public String getMode() {
+        Log.d("2> Mode is: ", mode);
         return mode;
     }
 
-    public Context getContext() {
-        return  getApplicationContext();
+    public Map<EditText, Pair<Integer, Integer>> getEditTextPositions() {
+        return editTextPositions;
     }
 
     @Override
