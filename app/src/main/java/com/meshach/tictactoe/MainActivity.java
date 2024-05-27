@@ -180,16 +180,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             for (int j = 0; j < boardSize; j++) {
                 EditText editText = new EditText(this);
-                TableRow.LayoutParams params = new TableRow.LayoutParams(163, 180);
+                TableRow.LayoutParams params = new TableRow.LayoutParams(
+                        0, // 0dp width
+                        TableRow.LayoutParams.WRAP_CONTENT, // wrap_content height
+                        1.0f // weight to distribute evenly
+                );
                 editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
-
+                editText.setLayoutParams(params);
                 if (boardSize == 3) {
-                    params.setMargins(40, 40, 40, 40);
-                    params.width = 250;
-                    params.height = 250;
-                    editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 45);
-                } else {
                     params.setMargins(20, 20, 20, 20);
+                    //params.width = 150;
+                    //params.height = 150;
+                    editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
+                } else {
+                    params.setMargins(10, 10, 10, 10);
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
                 }
 

@@ -1,0 +1,18 @@
+
+27/05
+1. Gameboard xml is out of scope for smaller devices.
+RESOURCES: ChatGPT, StackOverflow: https://stackoverflow.com/questions/47324577/responsive-table-layout-for-different-size-screen-android
+
+```
+editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
+                editText.setLayoutParams(params);
+                if (boardSize == 3) {
+                    params.setMargins(20, 20, 20, 20);
+                    //params.width = 150;
+                    //params.height = 150;
+                    editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
+                } else {
+                    params.setMargins(10, 10, 10, 10);
+                    editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                }
+```
