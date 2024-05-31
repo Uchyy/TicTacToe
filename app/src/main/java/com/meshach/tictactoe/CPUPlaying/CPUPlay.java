@@ -10,9 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.GamePlay.Player;
 import com.meshach.tictactoe.GamePlay.UserPlay;
+import com.meshach.tictactoe.GameViewModel;
 import com.meshach.tictactoe.MainActivity;
 import com.meshach.tictactoe.R;
 
@@ -26,43 +29,43 @@ public class CPUPlay extends AppCompatActivity {
     private List<TableRow> rowsList;
     private Context context;
     private Player currentPlayer;
-    private  boolean gameOver = false;
-    private  String mode;
+    private boolean gameOver = false;
+    private String mode;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private List <Pair<Integer, Integer>> emptyCells = new ArrayList<>();
+    private GameViewModel viewModel;
 
     private String [] boardStrings;
 
-    public CPUPlay(Context context, List<TableRow> rowsList, Player currentPlayer, Map<EditText, Pair<Integer, Integer>> editTextPositions ) {
+    public CPUPlay(Context context, ViewModelStoreOwner owner ) {
+
         this.context = context;
-        this.rowsList = rowsList;
-        this.currentPlayer = currentPlayer;
-        this.editTextPositions = editTextPositions;
-    }
+        viewModel = new ViewModelProvider(owner).get(GameViewModel.class);
 
-    public CPUPlay () {
+        rowsList = viewModel.getRowsList().getValue();
+        Log.d("CPUPlay ROWSLIST: ", rowsList != null ? rowsList.toString() : "RowsList is null");
 
-    }
+        editTextPositions = viewModel.getEditTextPositions().getValue();
+        Log.d("CPUPlay Map: ", editTextPositions != null ? editTextPositions.toString() : "EditTextPositions is null");
 
-    public void setMode(String mode) {
-        this.mode = mode;
+        currentPlayer = viewModel.getCurrentPlayer().getValue();
+        Log.d("CPUPlay CurPlayer: ", currentPlayer != null ? currentPlayer.toString() : "Current player is null");
+
     }
 
     public void isCPUPlayer() {
-        MainActivity activity = new MainActivity();
-        String mode = activity.getMode();
-        Log.d("Mode is: ", mode);
+
+        mode = String.valueOf(viewModel.getMode().getValue());
+        Log.d("CPUPlay Mode: ", mode != null ? mode : "Mode is null");
 
         switch(mode) {
             case "EASY":
                 easyMode();
                 break;
-            case "MEDIUM":
-                mediumMode();
-                break;
             case "HARD":
                 CPUHard hard = new CPUHard(rowsList, editTextPositions, currentPlayer, context);
                 hard.hardMove();
+                break;
             default:
                 mediumMode();
         }

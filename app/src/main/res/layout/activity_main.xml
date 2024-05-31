@@ -32,7 +32,7 @@
         layout="@layout/activity_game_board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="40dp"
         android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -43,7 +43,7 @@
         android:id="@+id/sliderMode"
         android:layout_width="269dp"
         android:layout_height="32dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="24dp"
         android:stepSize="50"
         android:value="50"
         android:valueFrom="50"
@@ -62,22 +62,23 @@
         android:id="@+id/textView"
         android:layout_width="115dp"
         android:layout_height="27dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="112dp"
         android:letterSpacing="0.3"
         android:text="Difficulty"
         android:textColor="#CDBBBB"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.557"
+        app:layout_constraintHorizontal_bias="0.564"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/labelMode"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="112dp"
         android:letterSpacing="0.3"
         android:text="EASY"
         android:textAlignment="textEnd"
@@ -88,7 +89,6 @@
         app:layout_constraintHorizontal_bias="0.904"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <LinearLayout
         android:layout_width="match_parent"

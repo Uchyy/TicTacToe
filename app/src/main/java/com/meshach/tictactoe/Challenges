@@ -16,3 +16,24 @@ editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
                 }
 ```
+
+Set Orientation to always Portrait:
+In manifest.xml : android:screenOrientation="portrait">
+
+Mode issues!!
+Method created in TTT.java
+```
+    public void setMode(String mode) {this.mode = mode; }
+
+    cpu = new CPUPlay(context, rowsList, currentPlayer, editTextPositions, mode);
+                cpu.isCPUPlayer();
+```
+In MainActivity:
+    call at start and restart
+
+
+LEARNING: VIEWMODEL ARCHITECTURE
+
+28/05
+Implementeing VIEWMODEL ARCHITECTURE WITH LIVEDATA
+Reseource: ChatGPT

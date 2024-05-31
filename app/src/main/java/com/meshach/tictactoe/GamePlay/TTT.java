@@ -10,8 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.CPUPlaying.CPUPlay;
+import com.meshach.tictactoe.GameViewModel;
 import com.meshach.tictactoe.MainActivity;
 import com.meshach.tictactoe.R;
 
@@ -27,37 +31,51 @@ public class TTT extends AppCompatActivity {
     private  boolean gameOver = false;
     private Context context;
     private int winningLine, count = 0;
+    private String mode;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
-    CPUPlay cpu;
-    UserPlay user;
+    private CPUPlay cpu;
+    private UserPlay user;
+    private GameViewModel viewModel;
+    private  ViewModelStoreOwner owner;
 
-    public TTT(Player player1, Player player2, List<TableRow> rowsList,  Map<EditText, Pair<Integer, Integer>> editTextPositions) {
+    public TTT(Player player1, Player player2, ViewModelStoreOwner owner) {
         this.player1 = player1;
         this.player2 = player2;
-        this.rowsList = rowsList;
-        currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
-        playerX = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
-        this.editTextPositions = editTextPositions;
+        this.owner = owner;
 
+        playerX = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
+        viewModel = new ViewModelProvider(owner).get(GameViewModel.class);
+
+        rowsList = viewModel.getRowsList().getValue();
+        Log.d("TTT ROWSLIST: ", rowsList != null ? rowsList.toString() : "RowsList is null");
+
+        editTextPositions = viewModel.getEditTextPositions().getValue();
+        Log.d("TTT Map: ", editTextPositions != null ? editTextPositions.toString() : "EditTextPositions is null");
+
+        currentPlayer = viewModel.getCurrentPlayer().getValue();
+        Log.d("TTT CurPlayer: ", currentPlayer != null ? currentPlayer.toString() : "Current player is null");
+
+        mode = String.valueOf(viewModel.getMode().getValue());
+        Log.d("TTT Mode: ", mode != null ? mode : "Mode is null");
     }
 
     public void setContext(Context context) {
         this.context = context;
     }
 
-
     public void startGame(View view) {
         if (gameOver) return; // Game over, ignore clicks
         Log.d("1: Current Player", currentPlayer.toString());
 
+        currentPlayer = viewModel.getCurrentPlayer().getValue();
         String text = currentPlayer.getPlayerSymbol();
         user = new UserPlay(context, rowsList);
 
         if (currentPlayer.isCPU()) {
-            cpu = new CPUPlay(context, rowsList, currentPlayer, editTextPositions);
-            //MainActivity activity = new MainActivity();
-            //String mode = activity.getMode();
+            Log.d("TTT Mode is: ", mode);
+            cpu = new CPUPlay(context, owner);
             cpu.isCPUPlayer();
+            viewModel.setRowsList(rowsList);
 
             if (checkForWin() || checkForDraw()) {
                 gameOver = true;
@@ -70,6 +88,8 @@ public class TTT extends AppCompatActivity {
             if (editText.getText().toString().isEmpty()) {
                 setEditTextProperties(editText, text);
             }
+            viewModel.setRowsList(rowsList);
+
         }
 
         if (checkForWin() || checkForDraw()) {
@@ -81,6 +101,7 @@ public class TTT extends AppCompatActivity {
                 new Handler().postDelayed(() -> startGame(null), 300);
             }
         }
+        viewModel.setRowsList(rowsList);
     }
 
     private boolean checkForWin( ) {
@@ -115,10 +136,11 @@ public class TTT extends AppCompatActivity {
 
     private void switchPlayer() {
         currentPlayer = (currentPlayer == player1) ? player2 : player1;
+        viewModel.setCurrentPlayer(currentPlayer);
     }
 
 
-    private void setEditTextProperties(EditText editText, String text) {
+    public void setEditTextProperties(EditText editText, String text) {
         if (text.equals("X")) {
             editText.setTextColor(ContextCompat.getColor(context, R.color.blueX));
         } else {
@@ -126,20 +148,5 @@ public class TTT extends AppCompatActivity {
         }
         editText.setText(text);
     }
-
-    public Map<EditText, String> getGameState() {
-        Map<EditText, String> gameState = new HashMap<>();
-        for (EditText editText : editTextPositions.keySet()) {
-            gameState.put(editText, editText.getText().toString());
-        }
-        return gameState;
-    }
-
-    public void restoreGameState(Map<EditText, String> gameState) {
-        for (Map.Entry<EditText, String> entry : gameState.entrySet()) {
-            entry.getKey().setText(entry.getValue());
-        }
-    }
-
 
 }

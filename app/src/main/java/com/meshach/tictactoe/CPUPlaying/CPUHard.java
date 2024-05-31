@@ -44,13 +44,10 @@ public class CPUHard {
 
     public void hardMove() {
         setEmptyCellsHard();
-        int skip = rowsList.size() / 2;
-        int count = (int) (Math.sqrt(rowsList.size()) / 2);
 
         Log.d("EMPTY CELLS!!!: ", emptyCells.toString());
         Log.d("EMPTY CELLS size!!!: ", String.valueOf(emptyCells.size()));
 
-            Log.d("Entering else 1: ", "");
             int[] arr = bestMove();
             int i = arr[0], j = arr[1];
 

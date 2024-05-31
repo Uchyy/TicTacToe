@@ -1,5 +1,7 @@
 package com.meshach.tictactoe.GamePlay;
 
+import androidx.lifecycle.MutableLiveData;
+
 public class Player {
     private String playerSymbol; // 'X' or 'O'
     private boolean vsCPU;
