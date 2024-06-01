@@ -6,18 +6,17 @@ import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.meshach.tictactoe.GamePlay.Player;
-import com.meshach.tictactoe.GamePlay.TTT;
-import com.meshach.tictactoe.R;
+import com.meshach.tictactoe.Classes.Player;
+import com.meshach.tictactoe.GamePlay.SetEditText;
+import com.meshach.tictactoe.GameViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class CPUHard {
 
@@ -26,15 +25,29 @@ public class CPUHard {
     private Player AI;
     private Context context;
     private List<Pair<Integer, Integer>> emptyCells = new ArrayList<>();
+    private GameViewModel viewModel;
+    private ViewModelStoreOwner owner;
+    private int sequenceLength;
 
-    public CPUHard(List<TableRow> rowsList, Map<EditText, Pair<Integer, Integer>> editTextPositions, Player AI, Context context) {
-        this.rowsList = rowsList;
-        this.editTextPositions = editTextPositions;
-        this.AI = AI;
+    public CPUHard(Context context, ViewModelStoreOwner owner) {
         this.context = context;
+        this.owner = owner;
+        viewModel = new ViewModelProvider(owner).get(GameViewModel.class);
+
+        rowsList = viewModel.getRowsList().getValue();
+        Log.d("CPUPlay ROWSLIST: ", rowsList != null ? rowsList.toString() : "RowsList is null");
+
+        this.sequenceLength = (rowsList.size() == 5) ? 4 : 3;
+
+        editTextPositions = viewModel.getEditTextPositions().getValue();
+        Log.d("CPUPlay Map: ", editTextPositions != null ? editTextPositions.toString() : "EditTextPositions is null");
+
+        AI = viewModel.getCurrentPlayer().getValue();
+        Log.d("CPUPlay CurPlayer: ", AI != null ? AI.toString() : "Current player is null");
     }
 
     public void setEmptyCellsHard() {
+        emptyCells.clear();
         for (EditText editText : editTextPositions.keySet()) {
             if (editText.getText().toString().isEmpty()) {
                 emptyCells.add(editTextPositions.get(editText));
@@ -48,18 +61,18 @@ public class CPUHard {
         Log.d("EMPTY CELLS!!!: ", emptyCells.toString());
         Log.d("EMPTY CELLS size!!!: ", String.valueOf(emptyCells.size()));
 
-            int[] arr = bestMove();
-            int i = arr[0], j = arr[1];
+        int[] arr = bestMove();
+        int i = arr[0], j = arr[1];
 
-            TableRow tableRow = rowsList.get(i);
-            EditText editText = (EditText) tableRow.getChildAt(j);
-            if (editText.getText().toString().isEmpty()) {
-                setEditTextProperties(editText, AI.getPlayerSymbol());
-                Log.d("Entering else 2: ", "");
-            } else {
-                Log.d("Entering else 3: ", "");
-                hardMove();
-            }
+        TableRow tableRow = rowsList.get(i);
+        EditText editText = (EditText) tableRow.getChildAt(j);
+        if (editText.getText().toString().isEmpty()) {
+            setEditTextProperties(editText, AI.getPlayerSymbol());
+            Log.d("Entering else 2: ", "");
+        } else {
+            Log.d("Entering else 3: ", "");
+            hardMove();
+        }
     }
 
     private int[] bestMove() {
@@ -167,13 +180,13 @@ public class CPUHard {
     }
 
     private int evaluateBoard(String[] board) {
-        String cpu = AI.getPlayerSymbol().equals("X") ? "XXX" : "OOO";
-        String opp = AI.getPlayerSymbol().equals("X") ? "OOO" : "XXX";
+        String cpu = new String(new char[sequenceLength]).replace("\0", AI.getPlayerSymbol());
+        String opp = new String(new char[sequenceLength]).replace("\0", AI.getPlayerSymbol().equals("X") ? "O" : "X");
 
         // Check rows
         for (String string : board) {
-            if (string.equals(cpu)) return 10;
-            if (string.equals(opp)) return -10;
+            if (string.contains(cpu)) return 10;
+            if (string.contains(opp)) return -10;
         }
 
         // Check columns
@@ -182,31 +195,40 @@ public class CPUHard {
             for (String string : board) {
                 column.append(string.charAt(i));
             }
-            if (column.toString().equals(cpu)) return 10;
-            if (column.toString().equals(opp)) return -10;
+            if (column.toString().contains(cpu)) return 10;
+            if (column.toString().contains(opp)) return -10;
         }
 
-        // Check diagonals
-        StringBuilder diagonal1 = new StringBuilder();
-        StringBuilder diagonal2 = new StringBuilder();
-        for (int i = 0; i < board.length; i++) {
-            diagonal1.append(board[i].charAt(i));
-            diagonal2.append(board[i].charAt(board.length - 1 - i));
+        // Check main diagonals
+        for (int startRow = 0; startRow <= board.length - sequenceLength; startRow++) {
+            for (int startCol = 0; startCol <= board.length - sequenceLength; startCol++) {
+                StringBuilder mainDiag = new StringBuilder();
+                for (int k = 0; k < sequenceLength; k++) {
+                    mainDiag.append(board[startRow + k].charAt(startCol + k));
+                }
+                if (mainDiag.toString().equals(cpu)) return 10;
+                if (mainDiag.toString().equals(opp)) return -10;
+            }
         }
-        if (diagonal1.toString().equals(cpu) || diagonal2.toString().equals(cpu)) return 10;
-        if (diagonal1.toString().equals(opp) || diagonal2.toString().equals(opp)) return -10;
 
-        Log.d("Score is : ", "12");
+        // Check secondary diagonals
+        for (int startRow = 0; startRow <= board.length - sequenceLength; startRow++) {
+            for (int startCol = sequenceLength - 1; startCol < board.length; startCol++) {
+                StringBuilder secDiag = new StringBuilder();
+                for (int k = 0; k < sequenceLength; k++) {
+                    secDiag.append(board[startRow + k].charAt(startCol - k));
+                }
+                if (secDiag.toString().equals(cpu)) return 10;
+                if (secDiag.toString().equals(opp)) return -10;
+            }
+        }
+
+        Log.d("Score is : ", "0");
         return 0;
     }
 
     private void setEditTextProperties(EditText editText, String text) {
-        editText.setText(text);
-        int color = text.equals("X") ? R.color.blueX : R.color.yellowO;
-        editText.setTextColor(ContextCompat.getColor(context, color));
+        SetEditText setEditText = new SetEditText(context);
+        setEditText.setEditTextProperties(editText, text);
     }
-
-
-
-
 }

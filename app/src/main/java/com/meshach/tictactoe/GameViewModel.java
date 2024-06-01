@@ -1,6 +1,5 @@
 package com.meshach.tictactoe;
 
-import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
@@ -9,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.meshach.tictactoe.GamePlay.Player;
+import com.meshach.tictactoe.Classes.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

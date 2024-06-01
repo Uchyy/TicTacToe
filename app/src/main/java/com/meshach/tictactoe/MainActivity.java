@@ -1,6 +1,5 @@
 package com.meshach.tictactoe;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -17,20 +16,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.slider.Slider;
-import com.meshach.tictactoe.CPUPlaying.CPUPlay;
-import com.meshach.tictactoe.GamePlay.Player;
+import com.meshach.tictactoe.Classes.Player;
+import com.meshach.tictactoe.GamePlay.SetEditText;
 import com.meshach.tictactoe.GamePlay.TTT;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,19 +104,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (tableRow.getChildAt(i) instanceof EditText) {
                             editText = (EditText) tableRow.getChildAt(i);
                             editTextText = editText.getText().toString();
-                            ttt.setEditTextProperties (editText, editTextText);
+                            setEditTextProperties (editText, editTextText);
                         }
                     }
                 }
             }
 
-        };
-
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        gameViewModel.getRowsList().observe(this, nameObserver);
+        };  gameViewModel.getRowsList().observe(this, nameObserver);
 
     }
 
+    private void setEditTextProperties(EditText editText, String text) {
+        SetEditText setEditText = new SetEditText(this);
+        setEditText.setEditTextProperties(editText, text);
+    }
 
     private void setupUIComponents() {
 

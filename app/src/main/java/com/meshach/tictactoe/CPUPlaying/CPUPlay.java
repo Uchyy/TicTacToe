@@ -1,22 +1,19 @@
 package com.meshach.tictactoe.CPUPlaying;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.meshach.tictactoe.GamePlay.Player;
-import com.meshach.tictactoe.GamePlay.UserPlay;
+import com.meshach.tictactoe.Classes.Player;
+import com.meshach.tictactoe.GamePlay.SetEditText;
 import com.meshach.tictactoe.GameViewModel;
-import com.meshach.tictactoe.MainActivity;
 import com.meshach.tictactoe.R;
 
 import java.util.ArrayList;
@@ -34,12 +31,14 @@ public class CPUPlay extends AppCompatActivity {
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private List <Pair<Integer, Integer>> emptyCells = new ArrayList<>();
     private GameViewModel viewModel;
+    private  ViewModelStoreOwner owner;
 
     private String [] boardStrings;
 
-    public CPUPlay(Context context, ViewModelStoreOwner owner ) {
+    public CPUPlay (Context context, ViewModelStoreOwner owner ) {
 
         this.context = context;
+        this.owner = owner;
         viewModel = new ViewModelProvider(owner).get(GameViewModel.class);
 
         rowsList = viewModel.getRowsList().getValue();
@@ -63,7 +62,7 @@ public class CPUPlay extends AppCompatActivity {
                 easyMode();
                 break;
             case "HARD":
-                CPUHard hard = new CPUHard(rowsList, editTextPositions, currentPlayer, context);
+                CPUHard hard = new CPUHard(context, owner);
                 hard.hardMove();
                 break;
             default:
@@ -142,12 +141,8 @@ public class CPUPlay extends AppCompatActivity {
 
 
     private void setEditTextProperties(EditText editText, String text) {
-        if (text.equals("X")) {
-            editText.setTextColor(ContextCompat.getColor(context, R.color.blueX));
-        } else {
-            editText.setTextColor(ContextCompat.getColor(context, R.color.yellowO));
-        }
-        editText.setText(text);
+        SetEditText setEditText = new SetEditText(context);
+        setEditText.setEditTextProperties(editText, text);
     }
 
 

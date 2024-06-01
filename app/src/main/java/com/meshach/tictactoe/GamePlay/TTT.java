@@ -9,18 +9,13 @@ import android.widget.TableRow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.CPUPlaying.CPUPlay;
+import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GameViewModel;
-import com.meshach.tictactoe.MainActivity;
-import com.meshach.tictactoe.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import android.os.Handler;
@@ -34,7 +29,7 @@ public class TTT extends AppCompatActivity {
     private String mode;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private CPUPlay cpu;
-    private UserPlay user;
+    private GameManager gameManager;
     private GameViewModel viewModel;
     private  ViewModelStoreOwner owner;
 
@@ -69,7 +64,7 @@ public class TTT extends AppCompatActivity {
 
         currentPlayer = viewModel.getCurrentPlayer().getValue();
         String text = currentPlayer.getPlayerSymbol();
-        user = new UserPlay(context, rowsList);
+        gameManager = new GameManager(context, owner);
 
         if (currentPlayer.isCPU()) {
             Log.d("TTT Mode is: ", mode);
@@ -105,7 +100,7 @@ public class TTT extends AppCompatActivity {
     }
 
     private boolean checkForWin( ) {
-        boolean win = user.checkRow() || user.checkCol() || user.checkDiag();
+        boolean win = gameManager.checkRow() || gameManager.checkCol() || gameManager.checkDiag();
         if (win) {
             Toast.makeText(context, "WINNER WINNER!!", Toast.LENGTH_SHORT).show();
         }
@@ -140,13 +135,9 @@ public class TTT extends AppCompatActivity {
     }
 
 
-    public void setEditTextProperties(EditText editText, String text) {
-        if (text.equals("X")) {
-            editText.setTextColor(ContextCompat.getColor(context, R.color.blueX));
-        } else {
-            editText.setTextColor(ContextCompat.getColor(context, R.color.yellowO));
-        }
-        editText.setText(text);
+    private void setEditTextProperties(EditText editText, String text) {
+        SetEditText setEditText = new SetEditText(context);
+        setEditText.setEditTextProperties(editText, text);
     }
 
 }
