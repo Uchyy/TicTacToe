@@ -17,6 +17,12 @@ public class GameManager {
     private Context context;
     private GameViewModel viewModel;
     private int sequenceLength;
+    private enum winningLine {
+        ROW,
+        COL,
+        DIAGONAL
+    };
+    private winningLine line;
 
     public GameManager(Context context, ViewModelStoreOwner owner ) {
         this.context = context;
@@ -55,6 +61,7 @@ public class GameManager {
 
                 if (allTextsEqual) {
                     Toast.makeText(context, "Winning Row Segment Found!", Toast.LENGTH_SHORT).show();
+                    line = winningLine.ROW;
                     return true;
                 }
             }
@@ -91,6 +98,7 @@ public class GameManager {
 
                 if (allTextsEqual) {
                     Toast.makeText(context, "Winning Column Segment Found!", Toast.LENGTH_SHORT).show();
+                    line = winningLine.COL;
                     return true;
                 }
             }
@@ -129,6 +137,7 @@ public class GameManager {
 
                 if (mainDiagEqual) {
                     Toast.makeText(context, "Winning Main Diagonal Segment Found!", Toast.LENGTH_SHORT).show();
+                    line = winningLine.DIAGONAL;
                     return true;
                 }
             }
@@ -161,11 +170,16 @@ public class GameManager {
 
                 if (secDiagEqual) {
                     Toast.makeText(context, "Winning Secondary Diagonal Segment Found!", Toast.LENGTH_SHORT).show();
+                    line = winningLine.DIAGONAL;
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    public String getWinningLine () {
+        return String.valueOf(line);
     }
 }

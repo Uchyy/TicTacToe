@@ -58,9 +58,6 @@ public class CPUHard {
     public void hardMove() {
         setEmptyCellsHard();
 
-        Log.d("EMPTY CELLS!!!: ", emptyCells.toString());
-        Log.d("EMPTY CELLS size!!!: ", String.valueOf(emptyCells.size()));
-
         int[] arr = bestMove();
         int i = arr[0], j = arr[1];
 
@@ -68,18 +65,16 @@ public class CPUHard {
         EditText editText = (EditText) tableRow.getChildAt(j);
         if (editText.getText().toString().isEmpty()) {
             setEditTextProperties(editText, AI.getPlayerSymbol());
-            Log.d("Entering else 2: ", "");
+            viewModel.setCurrentEditText(editText);
         } else {
-            Log.d("Entering else 3: ", "");
             hardMove();
         }
     }
 
     private int[] bestMove() {
         setEmptyCellsHard();
-        Log.d("BestMove: ", emptyCells.toString());
         String[] arr = getStringArray(rowsList);
-        int best = Integer.MIN_VALUE;
+        int bestScore = Integer.MIN_VALUE;
         int[] bestPair = new int[2];
 
         // Check if CPU can win
@@ -130,7 +125,7 @@ public class CPUHard {
             }
         }
 
-        // If no immediate win or block, proceed with the usual minimax logic
+        // If no immediate win or block, proceed with the usual evaluation logic
         for (Pair<Integer, Integer> pair : emptyCells) {
             int i = pair.first;
             int j = pair.second;
@@ -143,8 +138,8 @@ public class CPUHard {
                 arr[i] = sb.toString(); // Update the array with the new string
 
                 int moveValue = evaluateBoard(arr);
-                if (moveValue > best) {
-                    best = moveValue;
+                if (moveValue > bestScore) {
+                    bestScore = moveValue;
                     bestPair = new int[]{i, j};
                 }
 
@@ -223,7 +218,6 @@ public class CPUHard {
             }
         }
 
-        Log.d("Score is : ", "0");
         return 0;
     }
 

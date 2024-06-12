@@ -1,5 +1,6 @@
 package com.meshach.tictactoe;
 
+import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
@@ -17,9 +18,26 @@ import java.util.Map;
 
 public class GameViewModel extends ViewModel {
     private MutableLiveData<String> mode = new MutableLiveData<>();
+    private MutableLiveData<Integer> playerXWins;
+    private MutableLiveData<Integer> draws;
+    private MutableLiveData<Integer> playerOWins;
+    private MutableLiveData<EditText>  currEditText = new MutableLiveData<>();
     private MutableLiveData<Player> currentPlayer = new MutableLiveData<>();
     private MutableLiveData<Map<EditText, Pair<Integer, Integer>>> editTextPositions = new MutableLiveData<>(new HashMap<>());
     private MutableLiveData<List<TableRow>> rowsList = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<EditText> currentEditText = new MutableLiveData<>();
+
+    public GameViewModel() {
+        playerOWins = new MutableLiveData<>();
+        playerXWins = new MutableLiveData<>();
+        draws = new MutableLiveData<>();
+
+        // Set initial values to 0
+        playerOWins.setValue(0);
+        playerXWins.setValue(0);
+        draws.setValue(0);
+    }
+
 
     // String Mode
     public LiveData<String> getMode() {
@@ -52,4 +70,40 @@ public class GameViewModel extends ViewModel {
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer.setValue(currentPlayer);
     }
+
+    //Current Edittext
+    public LiveData<EditText> getCurrentEditText() {
+        return currentEditText;
+    }
+    public void setCurrentEditText(EditText currentEditText) {
+        this.currentEditText.setValue(currentEditText);
+    }
+
+    //Player O Wins
+    public LiveData<Integer> getPlayerOWins() {
+        return playerOWins;
+    }
+    public void setPlayerOWins(Integer playerOWins) {
+        this.playerOWins.setValue(playerOWins);
+        Log.d("WINNER PLAYER: ", "PLAYERO");
+    }
+
+    //Player X Wins
+    public LiveData<Integer> getPlayerXWins() {
+        return playerXWins;
+    }
+    public void setPlayerXWins(Integer playerXWins) {
+        this.playerXWins.setValue(playerXWins);
+        Log.d("WINNER PLAYER: ", "PLAYERX");
+    }
+
+    //Draws
+    public LiveData<Integer> getDraws() {
+        return draws;
+    }
+
+    public void setDraws(Integer draws) {
+        this.draws.setValue(draws);
+    }
+
 }

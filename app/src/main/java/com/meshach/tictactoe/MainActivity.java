@@ -16,6 +16,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button restart;
     private Slider sliderMode;
     private TextView sliderLabel;
+    private TextView oTextView;
+    private TextView xTextView;
+    private TextView drawTextView;
     private  Map<EditText, String> gameState;
 
 
@@ -112,6 +116,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         };  gameViewModel.getRowsList().observe(this, nameObserver);
 
+        gameViewModel.getPlayerOWins().observe(this, wins -> {
+            oTextView.setText(String.valueOf(wins));
+        });
+
+        // Observe the LiveData for player X wins
+        gameViewModel.getPlayerXWins().observe(this, wins -> {
+            xTextView.setText(String.valueOf(wins));
+        });
+
+        // Observe the LiveData for draws
+        gameViewModel.getDraws().observe(this, drawCount -> {
+            drawTextView.setText(String.valueOf(drawCount));
+        });
+
+
+
     }
 
     private void setEditTextProperties(EditText editText, String text) {
@@ -123,7 +143,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sliderMode = findViewById(R.id.sliderMode);
         sliderLabel = findViewById(R.id.labelMode);
+        oTextView = findViewById(R.id.otextview);
+        xTextView = findViewById(R.id.xtextview);
+        drawTextView = findViewById(R.id.draw);
         updateSliderLabel(sliderMode.getValue());
+
+        gameViewModel.setDraws(0);
+        gameViewModel.setPlayerOWins(0);
+        gameViewModel.setPlayerXWins(0);
+
 
         sliderMode.addOnChangeListener(new Slider.OnChangeListener() {
             @Override

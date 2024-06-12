@@ -59,3 +59,13 @@ final Observer <List<TableRow>> nameObserver = new Observer<List<TableRow>>() {
 
 31/05 - CREATING THE LOGIC FOR 5 X 5
 
+
+11/06
+SETTING WINNING CLASS
+ADDING ``
+ viewModel.setCurrentEditText(editText);
+``
+after every move
+
+12/06
+WIINING CLASS CONTD'

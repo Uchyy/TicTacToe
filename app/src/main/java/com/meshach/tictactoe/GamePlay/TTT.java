@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.CPUPlaying.CPUPlay;
 import com.meshach.tictactoe.Classes.Player;
+import com.meshach.tictactoe.Classes.Winner;
 import com.meshach.tictactoe.GameViewModel;
 
 import java.util.List;
@@ -25,13 +26,13 @@ public class TTT extends AppCompatActivity {
     private List<TableRow> rowsList;
     private  boolean gameOver = false;
     private Context context;
-    private int winningLine, count = 0;
     private String mode;
+    private EditText curEditText;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private CPUPlay cpu;
     private GameManager gameManager;
     private GameViewModel viewModel;
-    private  ViewModelStoreOwner owner;
+    private ViewModelStoreOwner owner;
 
     public TTT(Player player1, Player player2, ViewModelStoreOwner owner) {
         this.player1 = player1;
@@ -74,6 +75,7 @@ public class TTT extends AppCompatActivity {
 
             if (checkForWin() || checkForDraw()) {
                 gameOver = true;
+                atGameOver();
                 // Handle game over
             }
 
@@ -82,6 +84,7 @@ public class TTT extends AppCompatActivity {
             EditText editText = (EditText) view;
             if (editText.getText().toString().isEmpty()) {
                 setEditTextProperties(editText, text);
+                viewModel.setCurrentEditText(editText);
             }
             viewModel.setRowsList(rowsList);
 
@@ -89,6 +92,7 @@ public class TTT extends AppCompatActivity {
 
         if (checkForWin() || checkForDraw()) {
             gameOver = true;
+            atGameOver();
             // Handle game over
         } else {
             switchPlayer(); // Switch to the other player
@@ -109,8 +113,6 @@ public class TTT extends AppCompatActivity {
 
     private boolean checkForDraw() {
         // Iterate over all EditText views or board positions
-        count++;
-
         for (EditText editText : editTextPositions.keySet()) {
             if (editText.getText().toString().isEmpty()) {
                 Log.d("CheckForDraw", "Found empty cell: " + editTextPositions.get(editText));
@@ -138,6 +140,35 @@ public class TTT extends AppCompatActivity {
     private void setEditTextProperties(EditText editText, String text) {
         SetEditText setEditText = new SetEditText(context);
         setEditText.setEditTextProperties(editText, text);
+    }
+
+    private void atGameOver() {
+        Log.d("CURRENT PLAYER: ", currentPlayer.getPlayerSymbol());
+
+        if (checkForWin()) {
+            String winningLine = String.valueOf(gameManager.getWinningLine());
+            Log.d("WINNING LINE IS: ", winningLine);
+
+            // Retrieve the current win count
+            if (currentPlayer.getPlayerSymbol().equals("X")) {
+                int wins = viewModel.getPlayerXWins().getValue();
+                Log.d("BEFORE - X WINS: ", String.valueOf(wins));
+                viewModel.setPlayerXWins(wins + 1);
+
+            } else if (currentPlayer.getPlayerSymbol().equals("O")) {
+                int wins = viewModel.getPlayerOWins().getValue();
+                Log.d("BEFORE - 0 WINS: ", String.valueOf(wins));
+                viewModel.setPlayerOWins(wins + 1);
+            }
+
+        } else if (checkForDraw()){
+            int draw = viewModel.getDraws().getValue();
+            Log.d("BEFORE - DRAWS: ", String.valueOf(draw));
+            viewModel.setDraws(draw + 1);
+        }
+
+        String winningSegment = gameManager.getWinningLine();
+        Winner winner = new Winner(currentPlayer.getPlayerSymbol(), winningSegment, owner );
     }
 
 }

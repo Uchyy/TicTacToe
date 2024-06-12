@@ -62,8 +62,7 @@ public class CPUPlay extends AppCompatActivity {
                 easyMode();
                 break;
             case "HARD":
-                CPUHard hard = new CPUHard(context, owner);
-                hard.hardMove();
+                hardMode();
                 break;
             default:
                 mediumMode();
@@ -72,6 +71,11 @@ public class CPUPlay extends AppCompatActivity {
     }
 
     //public void setMode (String mode) {this.mode = mode;}
+
+    private void hardMode() {
+        CPUHard hard = new CPUHard(context, owner);
+        hard.hardMove();
+    }
 
     private void easyMode() {
         for (TableRow tableRow : rowsList) {
@@ -85,6 +89,7 @@ public class CPUPlay extends AppCompatActivity {
                     if (editTextText.isEmpty()) {
                         editTextText = currentPlayer.getPlayerSymbol();
                         setEditTextProperties (editText, editTextText);
+                        viewModel.setCurrentEditText(editText);
                         return;
                     }
                 }
@@ -104,6 +109,7 @@ public class CPUPlay extends AppCompatActivity {
                 if (editTextText.isEmpty()) {
                     editTextText = currentPlayer.getPlayerSymbol();
                     setEditTextProperties(editText, editTextText);
+                    viewModel.setCurrentEditText(editText);
                     return;
                 }
             }

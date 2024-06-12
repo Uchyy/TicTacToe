@@ -21,4 +21,11 @@ public class SetEditText {
         editText.setTextColor(ContextCompat.getColor(context, color));
     }
 
+    public void setWinningMoves(EditText editText, String text) {
+        //editText.setText(text);
+        editText.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+    }
+
+
+
 }
