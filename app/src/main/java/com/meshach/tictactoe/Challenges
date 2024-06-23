@@ -131,4 +131,7 @@ case "SECDIAGONAL":
     }
     break;
 
+    DELAY ADDED:
+    Update setWinningAnim() with delay
+
 

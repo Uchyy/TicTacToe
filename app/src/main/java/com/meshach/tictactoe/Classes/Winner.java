@@ -1,5 +1,7 @@
 package com.meshach.tictactoe.Classes;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
@@ -138,9 +140,21 @@ public class Winner {
         SetEditText setEditText = new SetEditText(currentEdittext.getContext());
         Log.d("WIINING-LIST SIZE: ", String.valueOf(getWinningList().size()));
 
-        for (EditText editText : winningMoves) {
-            setEditText.setWinningMoves(editText, editText.getText().toString());
+        Handler handler = new Handler(Looper.getMainLooper()); // Ensure the handler runs on the main thread
+        int delay = 300; // Initial delay in milliseconds
+
+        for (int i = 0; i < winningMoves.size(); i++) {
+            final EditText editText = winningMoves.get(i);
+            final String text = editText.getText().toString();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setEditText.setWinningMoves(editText, text);
+                }
+            }, i * delay); // Multiply delay by i to stagger updates
         }
+
     }
 
     @Override
