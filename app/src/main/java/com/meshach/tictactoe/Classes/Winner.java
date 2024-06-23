@@ -1,5 +1,6 @@
 package com.meshach.tictactoe.Classes;
 
+import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
@@ -7,6 +8,7 @@ import android.widget.TableRow;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.meshach.tictactoe.GamePlay.SetEditText;
 import com.meshach.tictactoe.GameViewModel;
 
 import java.util.ArrayList;
@@ -31,9 +33,12 @@ public class Winner {
 
         viewModel = new ViewModelProvider(owner).get(GameViewModel.class);
         editTextPositions = viewModel.getEditTextPositions().getValue();
+        Log.d("PAIRPOS SIZE FROM WINNER.CLASS: ", String.valueOf(editTextPositions.size()));
 
         rowsList = viewModel.getRowsList().getValue();
         this.currentEdittext = viewModel.getCurrentEditText().getValue();
+        Log.d("ROWLIST SIZE FROM WINNER.CLASS: ", String.valueOf(rowsList.size()));
+
 
     }
 
@@ -41,9 +46,12 @@ public class Winner {
         return winningMoves;
     }
 
-    private void setWinningLine() {
+    private void setWinningList() {
+        winningMoves = new ArrayList<>();
         EditText curEditText = viewModel.getCurrentEditText().getValue();
+        String text = curEditText.getText().toString();
         Pair<Integer, Integer> pair = editTextPositions.get(curEditText);
+        int size = rowsList.size() - 1;
 
         switch (winningSegment) {
             case "ROW":
@@ -53,42 +61,85 @@ public class Winner {
                 for (int i = 0; i < tableRow.getChildCount(); i++) {
                     if (tableRow.getChildAt(i) instanceof EditText) {
                         EditText editText = (EditText) tableRow.getChildAt(i);
-                        winningMoves.add(editText);
+                        if (editText.getText().toString().equals(text)) winningMoves.add(editText);
                     }
                 }
                 break;
 
             case "COL":
                 int col = pair.second;
+
                 for (TableRow tr : rowsList) {
                     if (tr.getChildAt(col) instanceof EditText) {
                         EditText editText = (EditText) tr.getChildAt(col);
-                        winningMoves.add(editText);
+                        if (editText.getText().toString().equals(text)) winningMoves.add(editText);
                     }
                 }
                 break;
 
-            case "DIAGONAL":
-                int i = pair.first;
-                int j = pair.second;
-                if (i == j) { // Main diagonal
-                    for (int k = 0; k < rowsList.size(); k++) {
-                        TableRow tr = rowsList.get(k);
-                        if (tr.getChildAt(k) instanceof EditText) {
-                            EditText editText = (EditText) tr.getChildAt(k);
-                            winningMoves.add(editText);
-                        }
+            case "MAINDIAGONAL":
+                int iMain = pair.first;
+                int jMain = pair.second;
+
+                int min = Math.min(iMain, jMain);
+                jMain = jMain - min;
+                iMain = iMain - min;
+
+                while (iMain <= size && jMain <= size) {
+                    TableRow tr = rowsList.get(iMain);
+                    if (tr.getChildAt(jMain) instanceof EditText) {
+                        EditText editText = (EditText) tr.getChildAt(jMain);
+                        if (editText.getText().toString().equals(text)) winningMoves.add(editText);
                     }
-                } else if (i + j == rowsList.size() - 1) { // Anti-diagonal
-                    for (int k = 0; k < rowsList.size(); k++) {
-                        TableRow tr = rowsList.get(k);
-                        if (tr.getChildAt(rowsList.size() - 1 - k) instanceof EditText) {
-                            EditText editText = (EditText) tr.getChildAt(rowsList.size() - 1 - k);
-                            winningMoves.add(editText);
-                        }
-                    }
+
+                    iMain++; jMain++;
                 }
                 break;
+
+            case "SECDIAGONAL":
+
+                int iSec = pair.first;
+                int jSec = pair.second;
+                int total = iSec + jSec;
+
+                if (total == size) {
+                    iSec = 0;
+                    jSec = size;
+                } else if (total < size) {
+                    iSec = 0;
+                    jSec = total;
+                } else {
+                    iSec = total - size;
+                    jSec = size;
+                }
+
+                Log.d("iSEC: ", String.valueOf(iSec));
+                Log.d("iJEC: ", String.valueOf(jSec));
+
+                while (iSec <= size && jSec >= 0) {
+                    TableRow tr = rowsList.get(iSec);
+                    if (tr.getChildAt(jSec) instanceof EditText) {
+                        EditText editText = (EditText) tr.getChildAt(jSec);
+
+                        if (editText.getText().toString().equals(text)) {
+                            winningMoves.add(editText);
+                        }
+                    }
+                    iSec++;
+                    jSec--;
+                }
+                break;
+
+        }
+    }
+
+    public  void setWinningAnim() {
+        setWinningList();
+        SetEditText setEditText = new SetEditText(currentEdittext.getContext());
+        Log.d("WIINING-LIST SIZE: ", String.valueOf(getWinningList().size()));
+
+        for (EditText editText : winningMoves) {
+            setEditText.setWinningMoves(editText, editText.getText().toString());
         }
     }
 

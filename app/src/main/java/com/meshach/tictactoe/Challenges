@@ -69,3 +69,66 @@ after every move
 
 12/06
 WIINING CLASS CONTD'
+
+23/06
+Changes Made:
+
+Refactored Diagonal Handling:
+Split the case "DIAGONAL" into case "MAINDIAGONAL" and case "SECDIAGONAL" for better clarity and maintainability.
+Adjusted the logic for traversing the secondary diagonal.
+Simplified the secondary diagonal logic to ensure correct iteration over elements and added matching elements to winningMoves.
+Details:
+
+MAINDIAGONAL:
+
+Handles the primary diagonal (top-left to bottom-right).
+SECDIAGONAL:
+
+Handles the secondary diagonal (top-right to bottom-left).
+Fixed the indices calculation and iteration logic to ensure all elements are correctly checked and matched elements are added to winningMoves.
+Code Changes:
+
+java
+Copy code
+// MAINDIAGONAL case added
+case "MAINDIAGONAL":
+    // Your existing or new logic for the main diagonal
+    break;
+
+// SECDIAGONAL case updated
+case "SECDIAGONAL":
+    int size = rowList.size() - 1;
+    int iSec = pair.first;
+    int jSec = pair.second;
+    int total = iSec + jSec;
+
+    if (total == size) {
+        iSec = 0;
+        jSec = size;
+    } else if (total < size) {
+        iSec = 0;
+        jSec = total;
+    } else {
+        iSec = total - size;
+        jSec = size;
+    }
+
+    Log.d("iSEC: ", String.valueOf(iSec));
+    Log.d("jSEC: ", String.valueOf(jSec));
+
+    while (iSec <= size && jSec >= 0) {
+        TableRow tr = rowList.get(iSec);
+
+        if (tr.getChildAt(jSec) instanceof EditText) {
+            EditText editText = (EditText) tr.getChildAt(jSec);
+
+            if (editText.getText().toString().equals(text)) {
+                winningMoves.add(editText);
+            }
+        }
+        iSec++;
+        jSec--;
+    }
+    break;
+
+

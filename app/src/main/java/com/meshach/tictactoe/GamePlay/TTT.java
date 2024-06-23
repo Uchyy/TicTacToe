@@ -169,6 +169,7 @@ public class TTT extends AppCompatActivity {
 
         String winningSegment = gameManager.getWinningLine();
         Winner winner = new Winner(currentPlayer.getPlayerSymbol(), winningSegment, owner );
+        winner.setWinningAnim();
     }
 
 }

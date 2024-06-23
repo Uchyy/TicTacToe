@@ -20,7 +20,8 @@ public class GameManager {
     private enum winningLine {
         ROW,
         COL,
-        DIAGONAL
+        MAINDIAGONAL,
+        SECDIAGONAL
     };
     private winningLine line;
 
@@ -137,7 +138,7 @@ public class GameManager {
 
                 if (mainDiagEqual) {
                     Toast.makeText(context, "Winning Main Diagonal Segment Found!", Toast.LENGTH_SHORT).show();
-                    line = winningLine.DIAGONAL;
+                    line = winningLine.MAINDIAGONAL;
                     return true;
                 }
             }
@@ -170,7 +171,7 @@ public class GameManager {
 
                 if (secDiagEqual) {
                     Toast.makeText(context, "Winning Secondary Diagonal Segment Found!", Toast.LENGTH_SHORT).show();
-                    line = winningLine.DIAGONAL;
+                    line = winningLine.SECDIAGONAL;
                     return true;
                 }
             }
