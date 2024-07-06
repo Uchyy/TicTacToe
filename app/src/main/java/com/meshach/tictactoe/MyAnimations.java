@@ -7,6 +7,10 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.widget.EditText;
 
 public class MyAnimations {
 
@@ -80,6 +84,24 @@ public class MyAnimations {
 
         // Start the fade-in animation
         fadeOut.start();
+    }
+
+    public void scaleAnimation(EditText view) {
+
+        /*Animation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+        //new ScaleAnimation(0, -500, 1, 1); //REMOVES THE EDITTEXT
+        scaleAnimation.setDuration(750);
+        scaleAnimation.setFillAfter(true);
+        editText.startAnimation(scaleAnimation);*/
+
+        view.animate()
+                .scaleX(3.5f) // Scale up X axis to 1.2 times
+                .scaleY(3.5f) // Scale up Y axis to 1.2 times
+                .setStartDelay(1)
+                .setDuration(600) // Duration of the scale animation
+                .setInterpolator(new AccelerateDecelerateInterpolator()) // Interpolator for smooth effect
+                .start();
     }
 
 

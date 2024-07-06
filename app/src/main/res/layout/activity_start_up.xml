@@ -113,7 +113,7 @@
         android:id="@+id/vsPlayer"
         android:layout_width="316dp"
         android:layout_height="60dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/bbuebtn"
         android:gravity="center"
         android:text="NEW GAME (VS PLAYER)"
@@ -124,8 +124,8 @@
 
     <LinearLayout
         android:id="@+id/viewChooseBoard"
-        android:layout_width="388dp"
-        android:layout_height="270dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
         android:background="@color/darkblue"
         android:elevation="100dp"
@@ -143,7 +143,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/backBtn"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@color/darkblue"
@@ -156,21 +156,22 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/by3Button"
             android:layout_width="316dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:layout_marginBottom="0dp"
             android:layout_weight="1"
             android:background="@drawable/ylwbutton"
             android:gravity="center"
             android:text="3 X 3"
+            android:padding="20dp"
             android:textColor="@color/yellowO"
             android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/by5Button"
             android:layout_width="316dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:padding="20dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/bbuebtn"

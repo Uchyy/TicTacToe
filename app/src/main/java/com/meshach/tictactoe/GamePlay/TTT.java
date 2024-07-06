@@ -76,6 +76,7 @@ public class TTT extends AppCompatActivity {
             if (checkForWin() || checkForDraw()) {
                 gameOver = true;
                 atGameOver();
+                return;
                 // Handle game over
             }
 
@@ -85,6 +86,8 @@ public class TTT extends AppCompatActivity {
             if (editText.getText().toString().isEmpty()) {
                 setEditTextProperties(editText, text);
                 viewModel.setCurrentEditText(editText);
+            }  else {
+                return;
             }
             viewModel.setRowsList(rowsList);
 
@@ -93,6 +96,7 @@ public class TTT extends AppCompatActivity {
         if (checkForWin() || checkForDraw()) {
             gameOver = true;
             atGameOver();
+            return;
             // Handle game over
         } else {
             switchPlayer(); // Switch to the other player

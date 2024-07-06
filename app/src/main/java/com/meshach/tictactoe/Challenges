@@ -134,4 +134,10 @@ case "SECDIAGONAL":
     DELAY ADDED:
     Update setWinningAnim() with delay
 
+    30/06
 
+July 6
+ANIMATIONS
+NEW METHOD: scaleAnimation()
+FIXED COMPUTER INCREMENT OF 2 ON WIN BY COMPUTER: adding return statement at CPUPlay
+SMOOOTHER TRANSITION: make int delay (from Winner.setWinningAnim) to be less than setDuration(600) (from MyAnimations.scaleAnimation)

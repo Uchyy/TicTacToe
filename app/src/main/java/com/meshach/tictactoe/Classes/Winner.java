@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.GamePlay.SetEditText;
 import com.meshach.tictactoe.GameViewModel;
+import com.meshach.tictactoe.MyAnimations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,7 +142,7 @@ public class Winner {
         Log.d("WIINING-LIST SIZE: ", String.valueOf(getWinningList().size()));
 
         Handler handler = new Handler(Looper.getMainLooper()); // Ensure the handler runs on the main thread
-        int delay = 300; // Initial delay in milliseconds
+        int delay = 350; // Initial delay in milliseconds
 
         for (int i = 0; i < winningMoves.size(); i++) {
             final EditText editText = winningMoves.get(i);
@@ -150,11 +151,12 @@ public class Winner {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    MyAnimations anim = new MyAnimations();
+                    anim.scaleAnimation(editText);
                     setEditText.setWinningMoves(editText, text);
                 }
             }, i * delay); // Multiply delay by i to stagger updates
         }
-
     }
 
     @Override

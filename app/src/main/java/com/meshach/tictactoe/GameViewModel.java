@@ -101,7 +101,6 @@ public class GameViewModel extends ViewModel {
     public LiveData<Integer> getDraws() {
         return draws;
     }
-
     public void setDraws(Integer draws) {
         this.draws.setValue(draws);
     }
