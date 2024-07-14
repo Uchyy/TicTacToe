@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.CPUPlaying.CPUPlay;
+import com.meshach.tictactoe.Classes.GameOver;
 import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.Classes.Winner;
 import com.meshach.tictactoe.GameViewModel;
@@ -33,6 +34,7 @@ public class TTT extends AppCompatActivity {
     private GameManager gameManager;
     private GameViewModel viewModel;
     private ViewModelStoreOwner owner;
+
 
     public TTT(Player player1, Player player2, ViewModelStoreOwner owner) {
         this.player1 = player1;
@@ -65,7 +67,7 @@ public class TTT extends AppCompatActivity {
 
         currentPlayer = viewModel.getCurrentPlayer().getValue();
         String text = currentPlayer.getPlayerSymbol();
-        gameManager = new GameManager(context, owner);
+        gameManager = GameManager.getInstance(context, owner);
 
         if (currentPlayer.isCPU()) {
             Log.d("TTT Mode is: ", mode);
@@ -147,9 +149,9 @@ public class TTT extends AppCompatActivity {
     }
 
     private void atGameOver() {
-        Log.d("CURRENT PLAYER: ", currentPlayer.getPlayerSymbol());
+        Log.d("TTT GAMEOVER: ", currentPlayer.getPlayerSymbol());
 
-        if (checkForWin()) {
+       /* if (checkForWin()) {
             String winningLine = String.valueOf(gameManager.getWinningLine());
             Log.d("WINNING LINE IS: ", winningLine);
 
@@ -173,7 +175,14 @@ public class TTT extends AppCompatActivity {
 
         String winningSegment = gameManager.getWinningLine();
         Winner winner = new Winner(currentPlayer.getPlayerSymbol(), winningSegment, owner );
-        winner.setWinningAnim();
+        winner.setWinningAnim();*/
+
+        String winningLine = String.valueOf(gameManager.getWinningLine());
+        Log.d("TTT WINNING LINE IS: ", winningLine);
+
+        String gameOverMode = checkForWin() ? "WIN" : "DRAW";
+        GameOver gameOverClass = new GameOver(gameOverMode, owner, context);
+        gameOverClass.atGameOver();
     }
 
 }

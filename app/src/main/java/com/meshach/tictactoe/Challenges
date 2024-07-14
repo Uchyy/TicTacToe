@@ -141,3 +141,23 @@ ANIMATIONS
 NEW METHOD: scaleAnimation()
 FIXED COMPUTER INCREMENT OF 2 ON WIN BY COMPUTER: adding return statement at CPUPlay
 SMOOOTHER TRANSITION: make int delay (from Winner.setWinningAnim) to be less than setDuration(600) (from MyAnimations.scaleAnimation)
+
+JULY 7
+GAMEOVER DIALOGS:
+
+JULY 15:
+ISSUES: getWinningLine returns null at GameManager
+FIX: Using Singleton Classs at GameManager
+`
+private static GameManager instance;
+public static GameManager getInstance(Context context, ViewModelStoreOwner owner) {
+        if (instance == null) {
+            instance = new GameManager(context, owner);
+        }
+        return instance;
+    }
+
+    @GameOver: gameManager = GameManager.getInstance(context, owner);
+    @TTT: gameManager = GameManager.getInstance(context, owner);
+`
+

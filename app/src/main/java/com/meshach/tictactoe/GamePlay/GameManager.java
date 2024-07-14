@@ -1,6 +1,7 @@
 package com.meshach.tictactoe.GamePlay;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ public class GameManager {
     private Context context;
     private GameViewModel viewModel;
     private int sequenceLength;
+    private static GameManager instance;
     private enum winningLine {
         ROW,
         COL,
@@ -33,6 +35,13 @@ public class GameManager {
         assert rowsList != null;
         sequenceLength = (rowsList.size() == 5) ? 4 : 3;
 
+    }
+
+    public static GameManager getInstance(Context context, ViewModelStoreOwner owner) {
+        if (instance == null) {
+            instance = new GameManager(context, owner);
+        }
+        return instance;
     }
 
     public boolean checkRow() {
@@ -181,6 +190,7 @@ public class GameManager {
     }
 
     public String getWinningLine () {
+        Log.d("GET WINNING LINE CALLED:", "LINE IS: "+ line);
         return String.valueOf(line);
     }
 }

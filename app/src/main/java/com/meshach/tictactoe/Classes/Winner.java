@@ -45,7 +45,7 @@ public class Winner {
 
     }
 
-    public List<EditText> getWinningList () {
+    private List<EditText> getWinningList () {
         return winningMoves;
     }
 

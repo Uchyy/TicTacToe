@@ -26,6 +26,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Map<EditText, Pair<Integer, Integer>>> editTextPositions = new MutableLiveData<>(new HashMap<>());
     private MutableLiveData<List<TableRow>> rowsList = new MutableLiveData<>(new ArrayList<>());
     private MutableLiveData<EditText> currentEditText = new MutableLiveData<>();
+    private String gameOverMode;
 
     public GameViewModel() {
         playerOWins = new MutableLiveData<>();
@@ -36,6 +37,7 @@ public class GameViewModel extends ViewModel {
         playerOWins.setValue(0);
         playerXWins.setValue(0);
         draws.setValue(0);
+
     }
 
 
