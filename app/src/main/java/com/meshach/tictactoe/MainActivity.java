@@ -1,5 +1,6 @@
 package com.meshach.tictactoe;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Player player1, player2, currentPlayer;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private TTT ttt;
-    private String mode = "EASY";
+    private String mode = "MEDIUM";
     private Button restart;
     private Slider sliderMode;
     private TextView sliderLabel;
@@ -254,5 +255,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         ttt.startGame(view);
+    }
+
+    public Context getContext() {
+        return getApplicationContext();
     }
 }

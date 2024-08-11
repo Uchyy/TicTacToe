@@ -1,17 +1,25 @@
 package com.meshach.tictactoe.Classes;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.meshach.tictactoe.GameOverActivity;
 import com.meshach.tictactoe.GamePlay.SetEditText;
 import com.meshach.tictactoe.GameViewModel;
+import com.meshach.tictactoe.MainActivity;
 import com.meshach.tictactoe.MyAnimations;
 
 import java.util.ArrayList;
@@ -24,10 +32,11 @@ public class Winner {
     private String winningSegment;
     private EditText currentEdittext;
     private GameViewModel viewModel;
-
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private  List <EditText> winningMoves;
     private  List<TableRow> rowsList;
+    private Context context;
+    private Player player;
 
 
     public Winner(String playerSymbol, String winningSegment, ViewModelStoreOwner owner) {
@@ -42,6 +51,8 @@ public class Winner {
         this.currentEdittext = viewModel.getCurrentEditText().getValue();
         Log.d("ROWLIST SIZE FROM WINNER.CLASS: ", String.valueOf(rowsList.size()));
 
+        player = viewModel.getCurrentPlayer().getValue();
+
 
     }
 
@@ -52,6 +63,7 @@ public class Winner {
     private void setWinningList() {
         winningMoves = new ArrayList<>();
         EditText curEditText = viewModel.getCurrentEditText().getValue();
+        context = curEditText.getContext();
         String text = curEditText.getText().toString();
         Pair<Integer, Integer> pair = editTextPositions.get(curEditText);
         int size = rowsList.size() - 1;
@@ -136,10 +148,11 @@ public class Winner {
         }
     }
 
-    public  void setWinningAnim() {
+    public void setWinningAnim() {
         setWinningList();
         SetEditText setEditText = new SetEditText(currentEdittext.getContext());
         Log.d("WIINING-LIST SIZE: ", String.valueOf(getWinningList().size()));
+        MyAnimations anim = new MyAnimations();
 
         Handler handler = new Handler(Looper.getMainLooper()); // Ensure the handler runs on the main thread
         int delay = 350; // Initial delay in milliseconds
@@ -151,12 +164,18 @@ public class Winner {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MyAnimations anim = new MyAnimations();
-                    anim.scaleAnimation(editText);
+                    //  anim.scaleAnimation(editText);
                     setEditText.setWinningMoves(editText, text);
                 }
             }, i * delay); // Multiply delay by i to stagger updates
         }
+
+        Log.d("WINNER PLAYER: ", player.toString());
+        Intent intent = new Intent(context, GameOverActivity.class);
+        intent.putExtra("playerSymbol", player.getPlayerSymbol());
+        intent.putExtra("isCPU", player.isCPU());
+        new Handler().postDelayed(() -> context.startActivity(intent), 2000);
+
     }
 
     @Override

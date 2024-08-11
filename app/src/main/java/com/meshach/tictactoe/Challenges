@@ -161,3 +161,12 @@ public static GameManager getInstance(Context context, ViewModelStoreOwner owner
     @TTT: gameManager = GameManager.getInstance(context, owner);
 `
 
+28th JUly,
+
+GAMEOVER CLASS DONE.
+WORKING ON DIALOG. CREATED A GAMEOVERACTIVITY
+Getting Viewmodel's currentPlayer does not work. So Intent Extra.
+Working on Activity. But i think using an alert might be better.
+
+
+

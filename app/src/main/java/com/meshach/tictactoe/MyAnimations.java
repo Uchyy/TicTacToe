@@ -8,6 +8,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
@@ -86,22 +87,34 @@ public class MyAnimations {
         fadeOut.start();
     }
 
-    public void scaleAnimation(EditText view) {
-
-        /*Animation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-
-        //new ScaleAnimation(0, -500, 1, 1); //REMOVES THE EDITTEXT
-        scaleAnimation.setDuration(750);
-        scaleAnimation.setFillAfter(true);
-        editText.startAnimation(scaleAnimation);*/
-
+    public void scaleAnimation( EditText view) {
         view.animate()
-                .scaleX(3.5f) // Scale up X axis to 1.2 times
-                .scaleY(3.5f) // Scale up Y axis to 1.2 times
+                .scaleX(3.5f) // Scale up X axis to 3.5 times
+                .scaleY(3.5f) // Scale up Y axis to 3.5 times
                 .setStartDelay(1)
                 .setDuration(600) // Duration of the scale animation
                 .setInterpolator(new AccelerateDecelerateInterpolator()) // Interpolator for smooth effect
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Revert the scale back to the original size
+                        view.animate()
+                                .scaleX(1.0f) // Scale back X axis to original size
+                                .scaleY(1.0f) // Scale back Y axis to original size
+                                .setDuration(600) // Duration of the revert animation
+                                .setInterpolator(new AccelerateDecelerateInterpolator()) // Interpolator for smooth effect
+                                .start();
+                    }
+                })
                 .start();
+    }
+
+    public void blinkAnimation(View view) {
+        Animation blink = new AlphaAnimation(0.0f, 1.0f);
+        blink.setDuration(500); // duration - half a second
+        blink.setRepeatMode(Animation.REVERSE);
+        blink.setRepeatCount(5); // repeat 5 times
+        view.startAnimation(blink);
     }
 
 

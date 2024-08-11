@@ -151,35 +151,6 @@ public class TTT extends AppCompatActivity {
     private void atGameOver() {
         Log.d("TTT GAMEOVER: ", currentPlayer.getPlayerSymbol());
 
-       /* if (checkForWin()) {
-            String winningLine = String.valueOf(gameManager.getWinningLine());
-            Log.d("WINNING LINE IS: ", winningLine);
-
-            // Retrieve the current win count
-            if (currentPlayer.getPlayerSymbol().equals("X")) {
-                int wins = viewModel.getPlayerXWins().getValue();
-                Log.d("BEFORE - X WINS: ", String.valueOf(wins));
-                viewModel.setPlayerXWins(wins + 1);
-
-            } else if (currentPlayer.getPlayerSymbol().equals("O")) {
-                int wins = viewModel.getPlayerOWins().getValue();
-                Log.d("BEFORE - 0 WINS: ", String.valueOf(wins));
-                viewModel.setPlayerOWins(wins + 1);
-            }
-
-        } else if (checkForDraw()){
-            int draw = viewModel.getDraws().getValue();
-            Log.d("BEFORE - DRAWS: ", String.valueOf(draw));
-            viewModel.setDraws(draw + 1);
-        }
-
-        String winningSegment = gameManager.getWinningLine();
-        Winner winner = new Winner(currentPlayer.getPlayerSymbol(), winningSegment, owner );
-        winner.setWinningAnim();*/
-
-        String winningLine = String.valueOf(gameManager.getWinningLine());
-        Log.d("TTT WINNING LINE IS: ", winningLine);
-
         String gameOverMode = checkForWin() ? "WIN" : "DRAW";
         GameOver gameOverClass = new GameOver(gameOverMode, owner, context);
         gameOverClass.atGameOver();

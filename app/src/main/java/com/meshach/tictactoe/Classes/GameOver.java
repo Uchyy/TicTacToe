@@ -60,16 +60,21 @@ public class GameOver {
                     viewModel.setPlayerOWins(wins + 1);
                 }
             }
+
+            String winningSegment = gameManager.getWinningLine();
+            Winner winner = new Winner(currentPlayer.getPlayerSymbol(), winningSegment, owner);
+            winner.setWinningAnim();
         } else {
             Integer draw = viewModel.getDraws().getValue();
             if (draw != null) {
                 Log.d("BEFORE - DRAWS: ", String.valueOf(draw));
                 viewModel.setDraws(draw + 1);
             }
+
+            DrawClass drawClass = new DrawClass(owner);
+            drawClass.setDrawAnim();
         }
 
-        String winningSegment = gameManager.getWinningLine();
-        Winner winner = new Winner(currentPlayer.getPlayerSymbol(), winningSegment, owner);
-        winner.setWinningAnim();
+
     }
 }
