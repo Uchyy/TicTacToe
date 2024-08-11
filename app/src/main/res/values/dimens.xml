@@ -1,5 +1,6 @@
 <resources>
     <dimen name="board_margin">20dp</dimen>
+    <dimen name="fab_margin">48dp</dimen>
     <dimen name="board_large_margin">40dp</dimen>
     <dimen name="edittext_size_large">45sp</dimen>
     <dimen name="edittext_size_small">30sp</dimen>
