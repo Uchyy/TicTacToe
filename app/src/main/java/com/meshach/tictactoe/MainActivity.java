@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.slider.Slider;
 import com.meshach.tictactoe.Classes.Player;
+import com.meshach.tictactoe.GamePlay.GameManager;
 import com.meshach.tictactoe.GamePlay.SetEditText;
 import com.meshach.tictactoe.GamePlay.TTT;
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView xTextView;
     private TextView drawTextView;
     private  Map<EditText, String> gameState;
-
+    private boolean resetGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,38 +65,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().hide();
         }
 
-            // Initial setup if no saved state
-            Intent intent = getIntent();
-            boardSize = intent.getIntExtra("board", 0);
-            userPlayer = intent.getStringExtra("player1");
-            vsCPU = intent.getBooleanExtra("vsCPU", true);
-            String p2 = (userPlayer.equals("X")) ? "O" : "X";
-            gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
-            editTextPositions = new HashMap<>();
+        // Initial setup if no saved state
+        Intent intent = getIntent();
+        resetGame = intent.getBooleanExtra("resetGame", false);
+        boardSize = intent.getIntExtra("board", 0);
+        userPlayer = intent.getStringExtra("player1");
+        vsCPU = intent.getBooleanExtra("vsCPU", true);
+        String p2 = (userPlayer.equals("X")) ? "O" : "X";
 
-            constraintLayout = findViewById(R.id.coordinatorLayout);
-            tableLayout = findViewById(R.id.gameBoard);
 
-            player1 = new Player(userPlayer, vsCPU);
-            if (vsCPU) {
-                player2 = new Player(p2);
-            } else {
-                player2 = new Player(p2, vsCPU);
-            }
+        gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        editTextPositions = new HashMap<>();
 
-            tableLayout = constraintLayout.findViewById(R.id.gameBoard);
+        constraintLayout = findViewById(R.id.coordinatorLayout);
+        tableLayout = findViewById(R.id.gameBoard);
 
-            initializeBoard();
-            gameViewModel.setCurrentPlayer(player1.getPlayerSymbol().equals("X") ? player1 : player2);
-            gameViewModel.setEditTextPositions(editTextPositions);
-            gameViewModel.setRowsList(rowsList);
-            gameViewModel.setMode(mode);
+        player1 = new Player(userPlayer, vsCPU);
+        if (vsCPU) {
+            player2 = new Player(p2);
+        } else {
+            player2 = new Player(p2, vsCPU);
+        }
 
-            ttt = new TTT(player1, player2, (this));
-            ttt.setContext(getApplicationContext());
+        tableLayout = constraintLayout.findViewById(R.id.gameBoard);
 
-            currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
-            if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
+        initializeBoard();
+        initializeGameViewModel();
+
+        ttt = new TTT(player1, player2, (this));
+        ttt.setContext(getApplicationContext());
+
+        currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
+        if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
 
         setupUIComponents();
 
@@ -131,8 +133,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             drawTextView.setText(String.valueOf(drawCount));
         });
 
+    }
 
-
+    private void initializeGameViewModel() {
+        gameViewModel.setCurrentPlayer(player1.getPlayerSymbol().equals("X") ? player1 : player2);
+        gameViewModel.setEditTextPositions(editTextPositions);
+        gameViewModel.setRowsList(rowsList);
+        gameViewModel.setMode(mode);
     }
 
     private void setEditTextProperties(EditText editText, String text) {
@@ -141,35 +148,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupUIComponents() {
-
         sliderMode = findViewById(R.id.sliderMode);
         sliderLabel = findViewById(R.id.labelMode);
         oTextView = findViewById(R.id.otextview);
         xTextView = findViewById(R.id.xtextview);
         drawTextView = findViewById(R.id.draw);
+
+        setupSlider();
+        setupRestartButton();
+        resetScores();
+    }
+
+    private void setupSlider() {
         updateSliderLabel(sliderMode.getValue());
-
-        gameViewModel.setDraws(0);
-        gameViewModel.setPlayerOWins(0);
-        gameViewModel.setPlayerXWins(0);
-
-
         sliderMode.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 updateSliderLabel(value);
             }
         });
-
-        restart = findViewById(R.id.restartBtn);
-        restart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reloadTableLayout();
-            }
-        });
     }
-    
+
+    private void setupRestartButton() {
+        restart = findViewById(R.id.restartBtn);
+        restart.setOnClickListener(view -> reloadTableLayout());
+    }
+
+    private void resetScores() {
+        gameViewModel.setDraws(0);
+        gameViewModel.setPlayerOWins(0);
+        gameViewModel.setPlayerXWins(0);
+    }
+
+
     private void reloadTableLayout() {
         Log.d("Restarting", "Table alyout restarting");
         tableLayout.removeAllViews();
@@ -197,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initializeBoard() {
+        Toast.makeText(getApplicationContext(), " Initializing Board...", Toast.LENGTH_SHORT).show();
 
         //tableLayout = constraintLayout.findViewById(R.id.gameBoard);
         for (int i = 0; i < boardSize; i++) {

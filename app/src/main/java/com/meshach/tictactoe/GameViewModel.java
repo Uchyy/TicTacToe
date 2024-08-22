@@ -40,7 +40,6 @@ public class GameViewModel extends ViewModel {
 
     }
 
-
     // String Mode
     public LiveData<String> getMode() {
         return mode;
@@ -105,6 +104,23 @@ public class GameViewModel extends ViewModel {
     }
     public void setDraws(Integer draws) {
         this.draws.setValue(draws);
+    }
+
+    public void resetGame() {
+
+        mode.setValue(null);
+        playerXWins.setValue(0);
+        playerOWins.setValue(0);
+        draws.setValue(0);
+        currEditText.setValue(null);
+        currentPlayer.setValue(null);
+        editTextPositions.setValue(new HashMap<>());
+        rowsList.setValue(new ArrayList<>());
+        currentEditText.setValue(null);
+        gameOverMode = null;
+
+
+
     }
 
 }

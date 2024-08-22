@@ -23,7 +23,8 @@ public class GameManager {
         ROW,
         COL,
         MAINDIAGONAL,
-        SECDIAGONAL
+        SECDIAGONAL,
+
     };
     private winningLine line;
 
@@ -43,6 +44,17 @@ public class GameManager {
         }
         return instance;
     }
+
+    public void reset() {
+        Log.d("GameManager", "Resetting game state.");
+
+        // Clear the winning line
+        //line = null;
+        //rowsList = null;
+        //sequenceLength = 0;
+        instance = null;
+    }
+
 
     public boolean checkRow() {
         for (TableRow tableRow : rowsList) {
@@ -189,8 +201,11 @@ public class GameManager {
         return false;
     }
 
-    public String getWinningLine () {
-        Log.d("GET WINNING LINE CALLED:", "LINE IS: "+ line);
-        return String.valueOf(line);
+    public String getWinningLine() {
+        if (line == null) {
+            return "No winning line";  // Return a message indicating no winning line
+        } else {
+            return line.name();  // Return the name of the winning line (ROW, COL, etc.)
+        }
     }
 }

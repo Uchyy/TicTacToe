@@ -1,6 +1,7 @@
 package com.meshach.tictactoe.GamePlay;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -62,6 +63,8 @@ public class TTT extends AppCompatActivity {
     }
 
     public void startGame(View view) {
+
+        Log.d("GAME OVER: ", Boolean.toString(gameOver));
         if (gameOver) return; // Game over, ignore clicks
         Log.d("1: Current Player", currentPlayer.toString());
 
@@ -76,6 +79,7 @@ public class TTT extends AppCompatActivity {
             viewModel.setRowsList(rowsList);
 
             if (checkForWin() || checkForDraw()) {
+                Log.d("GAME OVER CALLED", Boolean.toString(gameOver));
                 gameOver = true;
                 atGameOver();
                 return;
@@ -150,10 +154,15 @@ public class TTT extends AppCompatActivity {
 
     private void atGameOver() {
         Log.d("TTT GAMEOVER: ", currentPlayer.getPlayerSymbol());
+        //agameManager.reset();
+
+        gameOver = false; //checkForWin() = false; checkForDraw() = false;
 
         String gameOverMode = checkForWin() ? "WIN" : "DRAW";
         GameOver gameOverClass = new GameOver(gameOverMode, owner, context);
         gameOverClass.atGameOver();
     }
+
+
 
 }

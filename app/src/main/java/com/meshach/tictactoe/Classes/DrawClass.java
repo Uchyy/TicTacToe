@@ -24,12 +24,14 @@ import java.util.Map;
 
 public class DrawClass extends AppCompatActivity {
 
+    private EditText currentEdittext;
     private GameViewModel viewModel;
     private List<EditText> allCells;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private List<TableRow> rowsList;
     private ViewModelStoreOwner owner;
     private Context context;
+    private Player player;
 
     public DrawClass(ViewModelStoreOwner owner) {
         this.owner = owner;
@@ -38,6 +40,9 @@ public class DrawClass extends AppCompatActivity {
         editTextPositions = viewModel.getEditTextPositions().getValue();
         rowsList = viewModel.getRowsList().getValue();
         initializeAllCells();
+
+        player = viewModel.getCurrentPlayer().getValue();
+        this.currentEdittext = viewModel.getCurrentEditText().getValue();
     }
 
     private void initializeAllCells() {
@@ -76,6 +81,8 @@ public class DrawClass extends AppCompatActivity {
             }
 
         Intent intent = new Intent(context, GameOverActivity.class);
+        intent.putExtra("playerSymbol", player.getPlayerSymbol());
+        intent.putExtra("isCPU", player.isCPU());
         new Handler().postDelayed(() -> context.startActivity(intent), 2000);
 
 

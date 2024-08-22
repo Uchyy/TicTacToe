@@ -69,6 +69,9 @@ public class Winner {
         int size = rowsList.size() - 1;
 
         switch (winningSegment) {
+            case "No winning line":
+                Log.d("WINNER LINE", "NO WINNING LINE" );
+                return;
             case "ROW":
                 int row = pair.first;
                 TableRow tableRow = rowsList.get(row);
@@ -171,6 +174,7 @@ public class Winner {
         }
 
         Log.d("WINNER PLAYER: ", player.toString());
+
         Intent intent = new Intent(context, GameOverActivity.class);
         intent.putExtra("playerSymbol", player.getPlayerSymbol());
         intent.putExtra("isCPU", player.isCPU());

@@ -28,8 +28,14 @@ public class GameOver {
         // Initialize ViewModel and other necessary components
         viewModel = new ViewModelProvider(owner).get(GameViewModel.class);
         currentPlayer = viewModel.getCurrentPlayer().getValue();
-        gameManager = GameManager.getInstance(context, owner);
 
+        if (currentPlayer == null) {
+            Log.e("GameOver", "Current player is null during initialization");
+        } else {
+            Log.d("GameOver", "Current player during initialization: " + currentPlayer.getPlayerSymbol());
+        }
+
+        gameManager = GameManager.getInstance(context, owner);
         checkForWin = gameOverMode.equals("WIN");
     }
 
@@ -64,6 +70,7 @@ public class GameOver {
             String winningSegment = gameManager.getWinningLine();
             Winner winner = new Winner(currentPlayer.getPlayerSymbol(), winningSegment, owner);
             winner.setWinningAnim();
+
         } else {
             Integer draw = viewModel.getDraws().getValue();
             if (draw != null) {
@@ -74,7 +81,7 @@ public class GameOver {
             DrawClass drawClass = new DrawClass(owner);
             drawClass.setDrawAnim();
         }
-
-
     }
+
+
 }

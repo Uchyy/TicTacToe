@@ -1,10 +1,13 @@
 package com.meshach.tictactoe;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +22,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.meshach.tictactoe.Classes.Player;
+import com.meshach.tictactoe.GamePlay.GameManager;
 
 public class GameOverActivity extends AppCompatActivity {
 
-    private GameViewModel viewModel;
+    //private GameViewModel viewModel;
     private Player player;
     private TextView titleTextView;
     private TextView msgTextView;
@@ -50,13 +54,6 @@ public class GameOverActivity extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
 
-       /* AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.CustomDialogTheme));
-        builder.setView(R.layout.activity_game_over);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);*/
-
-
         initializeComponents();
 
     }
@@ -70,10 +67,6 @@ public class GameOverActivity extends AppCompatActivity {
         againBtn = findViewById(R.id.againBtn);
         symbolTextView = findViewById(R.id.textView03);
 
-        viewModel = new ViewModelProvider(this).get(GameViewModel.class);
-        //player = viewModel.getCurrentPlayer().getValue();
-        //Log.d("GAME OVER PLAYER: ", player.toString());
-        //playerSymbol = player.getPlayerSymbol();
         playerSymbol = getIntent().getStringExtra("playerSymbol");
         boolean isCPU = getIntent().getBooleanExtra("isCPU", false);
 
@@ -93,18 +86,23 @@ public class GameOverActivity extends AppCompatActivity {
             againBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.yellowO));
         } else {
             againBtn.setBackgroundResource(R.drawable.bbuebtn);
-            againBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), color));
+            againBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blueX));
         }
 
         quitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //MainActivity mainActivity = new MainActivity();
+                //mainActivity.resetGameState();
                 new Handler().postDelayed(() -> {
                     Intent intent = new Intent(GameOverActivity.this, StartUp.class);
+                    boolean reset = true;
+                    intent.putExtra("resetGame", true);
+                    Log.d("GAME OVER RESET VALUE: ", Boolean.toString(reset));
                     startActivity(intent);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);  // Apply the animation
                     finish();
-                }, 2000);
+                }, 1000);
             }
         });
 
@@ -123,4 +121,7 @@ public class GameOverActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 }

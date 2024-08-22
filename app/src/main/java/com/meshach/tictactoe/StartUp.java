@@ -2,6 +2,7 @@ package com.meshach.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.meshach.tictactoe.GamePlay.GameManager;
 
 import java.util.HashMap;
 
@@ -25,11 +28,25 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
     private Button buttonVsPlayer;
     private LinearLayout linearLayoutBoard;
     private MyAnimations anim;
+    private Boolean resetGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
+        }
+
+        Intent intent = getIntent();
+        resetGame = intent.getBooleanExtra("resetGame", false);
+        Log.d("START-UP RESET VALUE: ", Boolean.toString(resetGame));
+        if (resetGame) {
+           /* GameViewModel viewModel = new ViewModelProvider(this).get(GameViewModel.class);
+            viewModel.resetGame();*/
+
+            GameManager manager = new GameManager(getApplicationContext(), this);
+            manager.reset();
+
+
         }
 
         super.onCreate(savedInstanceState);
@@ -112,6 +129,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             intent.putExtra("player1", userPlayer);
             intent.putExtra("board", board);
             intent.putExtra("vsCPU", vsCPU);
+            intent.putExtra("resetGame", resetGame);
             anim.fadeOut(linearLayoutBoard);
             //anim.fadeOutActivity(this);
             new Handler().postDelayed(() -> startActivity(intent), 1000);
