@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GamePlay.GameManager;
@@ -31,7 +32,7 @@ public class GameOverActivity extends AppCompatActivity {
     private TextView titleTextView;
     private TextView msgTextView;
     private TextView symbolTextView;
-    private Button quitBtn;  
+    private Button quitBtn;
     private Button againBtn;
     private String playerSymbol;
 
@@ -111,9 +112,11 @@ public class GameOverActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 new Handler().postDelayed(() -> {
-                    Intent intent = new Intent(GameOverActivity.this, MainActivity.class);
-                    intent.putExtra("restart", true);
-                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), " New Round?.....", Toast.LENGTH_SHORT).show();
+                    Intent newRoundIntent = new Intent(GameOverActivity.this, MainActivity.class);
+                    newRoundIntent.putExtra("newRound", true);
+                    newRoundIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(newRoundIntent);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);  // Apply the animation
                     finish();
                 }, 2000);

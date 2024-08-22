@@ -28,7 +28,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
     private Button buttonVsPlayer;
     private LinearLayout linearLayoutBoard;
     private MyAnimations anim;
-    private Boolean resetGame;
+    private Boolean resetGame, newRound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,8 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
 
 
         }
+
+        newRound = intent.getBooleanExtra("newRound", false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_up);
@@ -130,6 +132,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             intent.putExtra("board", board);
             intent.putExtra("vsCPU", vsCPU);
             intent.putExtra("resetGame", resetGame);
+            intent.putExtra("newRound", newRound);
             anim.fadeOut(linearLayoutBoard);
             //anim.fadeOutActivity(this);
             new Handler().postDelayed(() -> startActivity(intent), 1000);

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView xTextView;
     private TextView drawTextView;
     private  Map<EditText, String> gameState;
-    private boolean resetGame;
+    private boolean newRound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Initial setup if no saved state
         Intent intent = getIntent();
-        resetGame = intent.getBooleanExtra("resetGame", false);
+        newRound = intent.getBooleanExtra("newRound", false);
         boardSize = intent.getIntExtra("board", 0);
         userPlayer = intent.getStringExtra("player1");
         vsCPU = intent.getBooleanExtra("vsCPU", true);
@@ -156,7 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setupSlider();
         setupRestartButton();
-        resetScores();
+        if (!newRound) {
+            resetScores();
+        }
     }
 
     private void setupSlider() {
@@ -271,5 +273,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public Context getContext() {
         return getApplicationContext();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        Toast.makeText(getApplicationContext(), " MA: New Round?.....", Toast.LENGTH_SHORT).show();
+        super.onNewIntent(intent);
+        setIntent(intent); // Update the intent
+
+        boolean newRound = intent.getBooleanExtra("newRound", false);
+
+        if (newRound) {
+            reloadTableLayout(); // Reset the board for the new round
+        }
     }
 }

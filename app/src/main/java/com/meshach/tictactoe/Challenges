@@ -169,6 +169,9 @@ Getting Viewmodel's currentPlayer does not work. So Intent Extra.
 Working on Activity. But i think using an alert might be better.
 
 TO-DO LIST: 12/08 --->  RESET GAMEVIEW MODEL, AND GAMESTART. WORKING ON QUIT BUTTON
-
+22/08 ---> QUIT BUTTON  DONE BY nulling GameManager instance at GameOver in StartUp.class
+--->WORKED ON THE againBtn in GameOverActivity.class:
+    --Added "singleTop" in Manifest
+    --Overriding newIntent method in ManiActivity
 
 
