@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id ("com.google.gms.google-services")
 }
 
 android {
@@ -51,4 +52,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.6.1")
     androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.6.1")
     androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics")
 }
