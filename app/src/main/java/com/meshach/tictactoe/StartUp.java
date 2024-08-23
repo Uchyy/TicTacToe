@@ -1,6 +1,7 @@
 package com.meshach.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -26,7 +27,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
     private Button buttonVsCPU;
     private Button goBack, by3Button, by5Button;
     private Button buttonVsPlayer;
-    private LinearLayout linearLayoutBoard;
+    private ConstraintLayout linearLayoutBoard;
     private MyAnimations anim;
     private Boolean resetGame, newRound;
 
