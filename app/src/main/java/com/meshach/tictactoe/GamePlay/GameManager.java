@@ -47,11 +47,6 @@ public class GameManager {
 
     public void reset() {
         Log.d("GameManager", "Resetting game state.");
-
-        // Clear the winning line
-        //line = null;
-        //rowsList = null;
-        //sequenceLength = 0;
         instance = null;
     }
 

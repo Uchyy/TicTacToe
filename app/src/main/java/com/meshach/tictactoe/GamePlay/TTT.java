@@ -24,7 +24,7 @@ import android.os.Handler;
 public class TTT extends AppCompatActivity {
     private Player player1, player2, currentPlayer, playerX;
     private List<TableRow> rowsList;
-    private  boolean gameOver = false;
+    private boolean gameOver = false;
     private Context context;
     private String mode;
     private EditText curEditText;
@@ -90,7 +90,7 @@ public class TTT extends AppCompatActivity {
             if (editText.getText().toString().isEmpty()) {
                 setEditTextProperties(editText, text);
                 viewModel.setCurrentEditText(editText);
-            }  else {
+            } else {
                 return;
             }
             viewModel.setRowsList(rowsList);
@@ -111,7 +111,7 @@ public class TTT extends AppCompatActivity {
         viewModel.setRowsList(rowsList);
     }
 
-    private boolean checkForWin( ) {
+    private boolean checkForWin() {
         boolean win = gameManager.checkRow() || gameManager.checkCol() || gameManager.checkDiag();
         if (win) {
             Toast.makeText(context, "WINNER WINNER!!", Toast.LENGTH_SHORT).show();
@@ -131,7 +131,7 @@ public class TTT extends AppCompatActivity {
         return true;
     }
 
-    public void restartGame () {
+    public void restartGame() {
 
         if (playerX.isCPU()) {
             switchPlayer();
@@ -160,7 +160,5 @@ public class TTT extends AppCompatActivity {
         GameOver gameOverClass = new GameOver(gameOverMode, owner, context);
         gameOverClass.atGameOver();
     }
-
-
 
 }

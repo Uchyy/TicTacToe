@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.GamePlay.GameManager;
 
 import java.util.HashMap;
@@ -47,7 +48,8 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             GameManager manager = new GameManager(getApplicationContext(), this);
             manager.reset();
 
-
+            GameViewModel gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+            gameViewModel.resetGame();
         }
 
         newRound = intent.getBooleanExtra("newRound", false);
@@ -65,6 +67,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
         buttonVsCPU.setOnClickListener(this);
 
         linearLayoutBoard = findViewById(R.id.viewChooseBoard);
+
         buttonVsPlayer = findViewById(R.id.vsPlayer);
         buttonVsPlayer.setOnClickListener(this);
         goBack = linearLayoutBoard.findViewById(R.id.backBtn);
@@ -75,6 +78,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
         by5Button.setOnClickListener(this);
 
         linearLayoutBoard.setVisibility(View.INVISIBLE);
+
     }
 
     private void setPlayer(View btn1, View btn2) {

@@ -17,7 +17,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ttt.setContext(getApplicationContext());
 
         currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
-        playerX = currentPlayer;
+        playerX = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;;
         if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
 
         setupUIComponents();
@@ -132,6 +134,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Observe the LiveData for draws
         gameViewModel.getDraws().observe(this, drawCount -> {
             drawTextView.setText(String.valueOf(drawCount));
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage("Are you sure you want to exit?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            // Navigate to the target activity on confirmation
+                            Intent intent = new Intent(MainActivity.this, StartUp.class);
+                            startActivity(intent);
+                            finish();  // Optional: Close the current activity
+                        })
+                        .setNegativeButton("No", null)  // Do nothing on "No"
+                        .show();
+            }
         });
 
     }
@@ -196,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GameManager manager = new GameManager(getApplicationContext(), this);
         manager.reset();
         //ttt.restartGame();
+        if (playerX.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
     }
 
     private void updateSliderLabel(float value) {
@@ -283,7 +302,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onNewIntent(Intent intent) {
 
-        Toast.makeText(getApplicationContext(), " MA: New Round?.....", Toast.LENGTH_SHORT).show();
         super.onNewIntent(intent);
         setIntent(intent); // Update the intent
 
