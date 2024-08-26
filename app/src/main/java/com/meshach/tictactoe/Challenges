@@ -174,10 +174,14 @@ TO-DO LIST: 12/08 --->  RESET GAMEVIEW MODEL, AND GAMESTART. WORKING ON QUIT BUT
     --Added "singleTop" in Manifest
     --Overriding newIntent method in ManiActivity
 
+<<<<<<< HEAD
 23/08 ---> UI of StartUp.xml to make activity responsive - DONE
 
 25/08 ---> Working on DrawClass -->
 
 26/08
+=======
+23/08 ---> UI of StartUp.xml to make activity responsive
+>>>>>>> 2115767a22ae870a064ff650adce03f81db3f92e
 
 
