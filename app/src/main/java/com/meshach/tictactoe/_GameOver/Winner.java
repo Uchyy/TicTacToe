@@ -1,25 +1,20 @@
-package com.meshach.tictactoe.Classes;
-
-import static androidx.core.content.ContextCompat.startActivity;
+package com.meshach.tictactoe._GameOver;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Parcelable;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
 import android.widget.TableRow;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.meshach.tictactoe.GameOverActivity;
+import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GamePlay.SetEditText;
-import com.meshach.tictactoe.GameViewModel;
-import com.meshach.tictactoe.MainActivity;
+import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.MyAnimations;
 
 import java.util.ArrayList;
@@ -178,6 +173,7 @@ public class Winner {
         Intent intent = new Intent(context, GameOverActivity.class);
         intent.putExtra("playerSymbol", player.getPlayerSymbol());
         intent.putExtra("isCPU", player.isCPU());
+        intent.putExtra("mode", "WIN");
         new Handler().postDelayed(() -> context.startActivity(intent), 2000);
 
     }

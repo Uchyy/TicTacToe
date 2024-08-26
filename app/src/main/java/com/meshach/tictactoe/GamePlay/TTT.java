@@ -1,7 +1,6 @@
 package com.meshach.tictactoe.GamePlay;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -14,10 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.CPUPlaying.CPUPlay;
-import com.meshach.tictactoe.Classes.GameOver;
+import com.meshach.tictactoe._GameOver.GameOver;
 import com.meshach.tictactoe.Classes.Player;
-import com.meshach.tictactoe.Classes.Winner;
-import com.meshach.tictactoe.GameViewModel;
+import com.meshach.tictactoe.Classes.GameViewModel;
 
 import java.util.List;
 import java.util.Map;

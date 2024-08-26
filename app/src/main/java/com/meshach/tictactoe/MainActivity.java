@@ -18,13 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.slider.Slider;
+import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GamePlay.GameManager;
 import com.meshach.tictactoe.GamePlay.SetEditText;
@@ -37,13 +37,13 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private  GameViewModel gameViewModel;
+    private GameViewModel gameViewModel;
     private TableLayout tableLayout;
     private String userPlayer; int boardSize; boolean vsCPU;
     private ConstraintLayout constraintLayout;
     private List<TableRow> rowsList = new ArrayList<>();
     private boolean isPlayerX;
-    private Player player1, player2, currentPlayer;
+    private Player player1, player2, currentPlayer, playerX;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private TTT ttt;
     private String mode = "MEDIUM";
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ttt.setContext(getApplicationContext());
 
         currentPlayer = (player1.getPlayerSymbol().equals("X")) ? player1 : player2;
+        playerX = currentPlayer;
         if (currentPlayer.isCPU()) ttt.startGame(rowsList.get(0).getChildAt(0));
 
         setupUIComponents();
@@ -190,7 +191,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPositions.clear();
         initializeBoard();
         gameViewModel.setMode(mode);
-        ttt.restartGame();
+        gameViewModel.setCurrentPlayer(playerX);
+
+        GameManager manager = new GameManager(getApplicationContext(), this);
+        manager.reset();
+        //ttt.restartGame();
     }
 
     private void updateSliderLabel(float value) {
@@ -285,7 +290,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean newRound = intent.getBooleanExtra("newRound", false);
 
         if (newRound) {
-            reloadTableLayout(); // Reset the board for the new round
+            reloadTableLayout();
         }
+
+
     }
 }

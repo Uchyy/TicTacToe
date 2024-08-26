@@ -1,4 +1,4 @@
-package com.meshach.tictactoe.Classes;
+package com.meshach.tictactoe._GameOver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.meshach.tictactoe.GameOverActivity;
+import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GamePlay.SetEditText;
-import com.meshach.tictactoe.GameViewModel;
+import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.MyAnimations;
 
 import java.util.ArrayList;
@@ -83,6 +83,7 @@ public class DrawClass extends AppCompatActivity {
         Intent intent = new Intent(context, GameOverActivity.class);
         intent.putExtra("playerSymbol", player.getPlayerSymbol());
         intent.putExtra("isCPU", player.isCPU());
+        intent.putExtra("mode", "DRAW");
         new Handler().postDelayed(() -> context.startActivity(intent), 2000);
 
 

@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.meshach.tictactoe.GameViewModel;
+import com.meshach.tictactoe.Classes.GameViewModel;
 
 import java.util.List;
 

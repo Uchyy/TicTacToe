@@ -1,4 +1,4 @@
-package com.meshach.tictactoe.Classes;
+package com.meshach.tictactoe._GameOver;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,8 +6,9 @@ import android.util.Log;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GamePlay.GameManager;
-import com.meshach.tictactoe.GameViewModel;
+import com.meshach.tictactoe.Classes.GameViewModel;
 
 public class GameOver {
 

@@ -1,4 +1,4 @@
-package com.meshach.tictactoe;
+package com.meshach.tictactoe.Classes;
 
 import android.util.Log;
 import android.util.Pair;

@@ -13,7 +13,7 @@
         android:theme="@style/Theme.TicTacToe"
         tools:targetApi="31">
         <activity
-            android:name=".GameOverActivity"
+            android:name="._GameOver.GameOverActivity"
             android:exported="false"
             android:theme="@style/CustomDialogTheme"/>
         <activity

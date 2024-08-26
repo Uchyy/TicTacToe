@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GamePlay.SetEditText;
-import com.meshach.tictactoe.GameViewModel;
+import com.meshach.tictactoe.Classes.GameViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

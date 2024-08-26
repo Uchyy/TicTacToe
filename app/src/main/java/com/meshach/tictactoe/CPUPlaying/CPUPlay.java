@@ -7,14 +7,12 @@ import android.widget.EditText;
 import android.widget.TableRow;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.meshach.tictactoe.Classes.Player;
 import com.meshach.tictactoe.GamePlay.SetEditText;
-import com.meshach.tictactoe.GameViewModel;
-import com.meshach.tictactoe.R;
+import com.meshach.tictactoe.Classes.GameViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
