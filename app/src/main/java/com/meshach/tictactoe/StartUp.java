@@ -47,10 +47,10 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
 
             GameManager manager = new GameManager(getApplicationContext(), this);
             manager.reset();
-
-            GameViewModel gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
-            gameViewModel.resetGame();
         }
+
+        GameViewModel gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        gameViewModel.resetGame();
 
         newRound = intent.getBooleanExtra("newRound", false);
 

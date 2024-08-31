@@ -44,4 +44,13 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="difficulty">Difficulty</string>
+    <string name="restart">RESTART</string>
+    <string name="easy">EASY</string>
+    <string name="takes_the_round">TAKES THE ROUND</string>
+    <string name="takes_the_round1">TAKES THE ROUND</string>
+    <string name="you_won">YOU WON!!</string>
+    <string name="quit">QUIT</string>
+    <string name="next_round">NEXT ROUND</string>
+    <string name="x">X</string>
 </resources>

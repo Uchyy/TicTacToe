@@ -7,7 +7,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.meshach.tictactoe._GameOver.GameOverActivity;
+import com.meshach.tictactoe.MainActivity;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,7 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -22,19 +25,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class GameOverActivityTest {
 
     @Rule
-    public ActivityScenarioRule<GameOverActivity> activityRule =
+    public ActivityScenarioRule<GameOverActivity> activityScenarioRule =
             new ActivityScenarioRule<>(GameOverActivity.class);
 
     @Test
     public void testPlayerWinDisplay() {
         // Simulate the winning scenario by passing the required intent extras
-        Intent intent = new Intent();
-        intent.putExtra("playerSymbol", "X");
-        intent.putExtra("isCPU", false);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.getBooleanExtra("newRound", false);
+        intent.getIntExtra("board", 3);  // Assuming 3x3 board
+        intent.putExtra("player1", "X");
+        intent.getBooleanExtra("vsCPU", true);
 
         try (ActivityScenario<GameOverActivity> scenario = ActivityScenario.launch(intent)) {
             // Check if the winning message is displayed correctly
-            //onView(withId(R.id.))
             onView(withId(R.id.textView01)).check(matches(withText("YOU WON!!")));
             onView(withId(R.id.textView03)).check(matches(withText("X")));
         }
@@ -43,9 +47,11 @@ public class GameOverActivityTest {
     @Test
     public void testLoseToCPUDisplay() {
         // Simulate the losing scenario by passing the required intent extras
-        Intent intent = new Intent();
-        intent.putExtra("playerSymbol", "O");
-        intent.putExtra("isCPU", true);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.getBooleanExtra("newRound", false);
+        intent.getIntExtra("board", 3);  // Assuming 3x3 board
+        intent.putExtra("player1", "X");
+        intent.getBooleanExtra("vsCPU", true);
 
         try (ActivityScenario<GameOverActivity> scenario = ActivityScenario.launch(intent)) {
             // Check if the losing message is displayed correctly
@@ -54,27 +60,38 @@ public class GameOverActivityTest {
         }
     }
 
-    /*@Test
-    public void testQuitButtonFunctionality() {
-        // Click on the Quit button and verify the intended behavior
-        onView(withId(R.id.quitBtn)).perform(click());
+    // Skipping the commented out test methods that were previously dependent on ActivityTestRule
 
-        // Since there's a delay before the intent is launched, you may need to wait
-        onView(isRoot()).perform(waitFor(2000)); // Custom helper method to wait for 2 seconds
+    @Rule
+    public ActivityScenarioRule<MainActivity> mainActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
 
-        // Verify that the StartUp activity is started
-        intended(hasComponent(StartUp.class.getName()));
+    @Before
+    public void setUp() {
+        // Set up any required preconditions here
     }
 
     @Test
-    public void testAgainButtonFunctionality() {
-        // Click on the Again button and verify the intended behavior
-        onView(withId(R.id.againBtn)).perform(click());
+    public void testBoardInitialization() {
+        // Create an Intent with the required extras to start MainActivity
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.getBooleanExtra("newRound", false);
+        intent.getIntExtra("board", 3);  // Assuming 3x3 board
+        intent.putExtra("player1", "X");
+        intent.getBooleanExtra("vsCPU", true);
 
-        // Since there's a delay before the intent is launched, you may need to wait
-        onView(isRoot()).perform(waitFor(2000)); // Custom helper method to wait for 2 seconds
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            // Check if the table layout is displayed
+            onView(withId(R.id.gameBoard)).check(matches(isDisplayed()));
 
-        // Verify that the MainActivity is started
-        intended(hasComponent(MainActivity.class.getName()));
-    }*/
+            // Check if the slider mode is initialized correctly
+            onView(withId(R.id.sliderMode)).check(matches(isDisplayed()));
+
+            // Add more checks for the specific EditTexts, Buttons, or TextViews
+            onView(withId(R.id.restartBtn)).check(matches(withText("Restart")));
+
+            // You can also check if the first cell in the board is empty
+            onView(withId(R.id.gameBoard)).check(matches(isDisplayed()));
+        }
+    }
 }
