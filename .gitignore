@@ -13,7 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
-com/meshach/tictactoe/_GameOver
-com/meshach/tictactoe/Classes
-com/meshach/tictactoe/CPUPlaying
+app/src/main/java/com/meshach/tictactoe/_GameOver
+app/src/main/java/com/meshach/tictactoe/Classes
+app/src/main/java/com/meshach/tictactoe/CPUPlaying
+app/src/main/java/com/meshach/tictactoe/GamePlay
 google-serviices.json
