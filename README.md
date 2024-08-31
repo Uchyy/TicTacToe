@@ -1,6 +1,7 @@
 # TicTacToe Game
 
-A classic TicTacToe game designed for Android devices, featuring adjustable difficulty levels and options to play against the CPU or another player.
+A classic 
+#TicTacToe game designed for Android devices, featuring adjustable difficulty levels and options to play against the CPU or another player.
 
 ## Table of Contents
 
