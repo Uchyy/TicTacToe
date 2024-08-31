@@ -25,12 +25,13 @@ A classic
 
 ## Screenshots
 
-<img src="screenshot/1.png" alt="Screenshot 1" width="300"/>
-<img src="screenshot/2.png" alt="Screenshot 2" width="300"/>
-<img src="screenshot/3.png" alt="Screenshot 3" width="300"/>
-<img src="screenshot/4.png" alt="Screenshot 4" width="300"/>
-<img src="screenshot/5.png" alt="Screenshot 5" width="300"/>
-<img src="screenshot/6.png" alt="Screenshot 6" width="300"/>
+![1.png](screenshot%2F1.png)
+![2.png](screenshot%2F2.png)
+![3.png](screenshot%2F3.png)
+![4.png](screenshot%2F4.png)
+![5.png](screenshot%2F5.png)
+![6.png](screenshot%2F6.png)
+
 
 
 ## Installation
