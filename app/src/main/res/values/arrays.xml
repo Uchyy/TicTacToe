@@ -1,7 +1,0 @@
-<resources>
-    <array name="initial_slider_values">
-        <item>easy</item>
-        <item>medium</item>
-        <item>hard</item>
-    </array>
-</resources>
