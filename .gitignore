@@ -17,4 +17,5 @@ app/src/main/java/com/meshach/tictactoe/_GameOver
 app/src/main/java/com/meshach/tictactoe/Classes
 app/src/main/java/com/meshach/tictactoe/CPUPlaying
 app/src/main/java/com/meshach/tictactoe/GamePlay
-google-serviices.json
+google-services.json
+app/src/main/res/values/strings.xml

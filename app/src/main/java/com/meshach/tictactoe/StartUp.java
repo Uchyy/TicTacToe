@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.GamePlay.GameManager;
 
@@ -31,12 +35,16 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
     private ConstraintLayout linearLayoutBoard;
     private MyAnimations anim;
     private Boolean resetGame, newRound;
+    private AdView adView, bannerAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        addAds();
 
         Intent intent = getIntent();
         resetGame = intent.getBooleanExtra("resetGame", false);
@@ -143,6 +151,27 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             new Handler().postDelayed(() -> startActivity(intent), 1000);
         }
 
+    }
+
+    private void addAds () {
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        // Create a banner ad. The ad size and ad unit ID must be set before calling loadAd.
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getString(R.string.adID));
+
+        // Create an ad request.
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+
+        // Add the AdView to the view hierarchy.
+        layout.addView(adView);
+
+        // Start loading the ad.
+        adView.loadAd(adRequestBuilder.build());
+
+        setContentView(layout);
     }
 
 }

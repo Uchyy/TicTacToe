@@ -25,6 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.slider.Slider;
 import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.Classes.Player;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
