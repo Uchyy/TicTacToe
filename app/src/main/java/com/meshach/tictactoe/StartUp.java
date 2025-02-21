@@ -93,7 +93,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
 
         if (btn1 instanceof Button && btn2 instanceof Button) {
             btn1.setBackgroundResource(R.drawable.thumb);
-            ((Button) btn1).setTextColor(ContextCompat.getColor(this, R.color.darkblue));
+            ((Button) btn1).setTextColor(ContextCompat.getColor(this, R.color.color_lightPrimary_dark));
 
             btn2.setBackgroundResource(R.drawable.track);
             ((Button) btn2).setTextColor(ContextCompat.getColor(this, R.color.gray));

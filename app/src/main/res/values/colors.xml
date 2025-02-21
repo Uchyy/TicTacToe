@@ -9,6 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blueX">#56A7B8</color>
     <color name="yellowO">#F3C76C</color>
-    <color name="darkblue">#121529</color>
+    <color name="color_primary_dark">#121529</color>
     <color name="gray">#99A1A5B6</color>
+    <color name="color_lightPrimary_dark">#15192E</color>
+    <color name="color_textPrimary_dark">#A6FFFFFF</color>
+    <color name="color_textPrimary_dark2">#99A1A5B6</color>
 </resources>

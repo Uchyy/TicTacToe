@@ -2,21 +2,23 @@ package com.meshach.tictactoe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowMetrics;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -25,7 +27,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.material.slider.Slider;
 import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.Classes.Player;
@@ -33,7 +41,10 @@ import com.meshach.tictactoe.GamePlay.GameManager;
 import com.meshach.tictactoe.GamePlay.SetEditText;
 import com.meshach.tictactoe.GamePlay.TTT;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,12 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TableLayout tableLayout;
     private String userPlayer; int boardSize; boolean vsCPU;
     private ConstraintLayout constraintLayout;
+    LinearLayout adContainerView;
     private List<TableRow> rowsList = new ArrayList<>();
     private boolean isPlayerX;
     private Player player1, player2, currentPlayer, playerX;
     private Map<EditText, Pair<Integer, Integer>> editTextPositions;
     private TTT ttt;
-    private String mode = "MEDIUM";
+    private String mode;
     private Button restart;
     private Slider sliderMode;
     private TextView sliderLabel;
@@ -64,6 +76,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*List<String> testDeviceIds = Arrays.asList("71B02F0BEA066F8F6CDBB05A95633D08");
+        RequestConfiguration configuration = new RequestConfiguration.Builder()
+                .setTestDeviceIds(testDeviceIds)
+                .build();
+        MobileAds.setRequestConfiguration(configuration);*/
+        MobileAds.initialize(this, initializationStatus -> {
+            runAd(); // Ensure ads only run after initialization
+        });
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -180,14 +200,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!newRound) {
             resetScores();
         }
+
+        sliderMode.setValue(100);
     }
 
     private void setupSlider() {
-        updateSliderLabel(sliderMode.getValue());
+        //updateSliderLabel(10);
         sliderMode.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                updateSliderLabel(value);
+                updateSliderLabel(sliderMode.getValue());
             }
         });
     }
@@ -205,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void reloadTableLayout() {
-        Log.d("Restarting", "Table alyout restarting");
+        //.d("Restarting", "Table alyout restarting");
         tableLayout.removeAllViews();
         rowsList.clear();
         editTextPositions.clear();
@@ -220,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateSliderLabel(float value) {
-        String label;
+        String label = "";
         if (value == 50) {
             label = "EASY";
         } else if (value == 100) {
@@ -236,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initializeBoard() {
-        Toast.makeText(getApplicationContext(), " Initializing Board...", Toast.LENGTH_SHORT).show();
+        //.makeText(getApplicationContext(), " Initializing Board...", //.LENGTH_SHORT).show();
 
         //tableLayout = constraintLayout.findViewById(R.id.gameBoard);
         for (int i = 0; i < boardSize; i++) {
@@ -313,6 +335,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             reloadTableLayout();
         }
 
-
     }
+
+    public AdSize getAdSize() {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int adWidthPixels = displayMetrics.widthPixels;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowMetrics windowMetrics = this.getWindowManager().getCurrentWindowMetrics();
+            adWidthPixels = windowMetrics.getBounds().width();
+        }
+
+        float density = displayMetrics.density;
+        int adWidth = (int) (adWidthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
+    }
+
+    public void runAd() {
+
+        adContainerView = findViewById(R.id.adContainer);
+        AdView adView = new AdView(adContainerView.getContext());
+        adView.setAdUnitId(getString(R.string.testadID));
+        adView.setAdSize(getAdSize());
+
+    // Replace ad container with new ad view.
+
+        adContainerView.removeAllViews();
+        adContainerView.addView(adView);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+                Log.d("AdInfo", "Ad Clicked");
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                Log.e("AdError", "Ad failed to load: ");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d("AdInfo", "Ad successfully loaded");
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+
+            @Override
+            public void onAdSwipeGestureClicked() {
+                super.onAdSwipeGestureClicked();
+            }
+        });
+    }
+
 }
