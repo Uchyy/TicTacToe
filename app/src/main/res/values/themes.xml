@@ -24,8 +24,4 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@drawable/app_white2</item>
-    </style>
-
 </resources>
