@@ -177,4 +177,7 @@ public static GameManager getInstance(Context context, ViewModelStoreOwner owner
 - Final touches on the draw class and finalizing responsive layout adjustments.
 
 --- 
-
+### 21st February: Google ADs Implementation
+- Integrated Google Ads into the app to start showing advertisements.
+- Fixed layout and display issues preventing ads from appearing correctly.
+- Optimized ad loading for improved app performance and user experience.

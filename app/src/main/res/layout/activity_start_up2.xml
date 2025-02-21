@@ -13,6 +13,22 @@
         android:layout_height="match_parent"
         android:background="@drawable/app_white2">
 
+        <ImageButton
+            android:id="@+id/bulbBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:contentDescription="@string/settingsbutton"
+            android:layout_gravity="end|center"
+            android:scaleType="fitEnd"
+            ads:srcCompat="@drawable/bulb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.058"
+            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1.0" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
