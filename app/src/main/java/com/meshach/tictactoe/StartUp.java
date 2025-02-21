@@ -1,7 +1,6 @@
 package com.meshach.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,7 +11,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -36,8 +34,8 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
     private Button buttonVsPlayer;
     private ConstraintLayout linearLayoutBoard;
     private MyAnimations anim;
-    private Boolean resetGame, newRound, isDarkMode;
-    private ImageButton themeButton;
+    private Boolean resetGame, newRound;
+    private AdView adView, bannerAd;
 
 
     @Override
@@ -45,6 +43,8 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        addAds();
 
         Intent intent = getIntent();
         resetGame = intent.getBooleanExtra("resetGame", false);
@@ -67,8 +67,6 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
         anim = new MyAnimations();
         userPlayer = "O";
 
-        themeButton = findViewById(R.id.bulbBtn);
-        themeButton.setOnClickListener(this);
         buttonO = findViewById(R.id.buttonO);
         buttonO.setOnClickListener(this);
         buttonX = findViewById(R.id.buttonX);
@@ -153,23 +151,27 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             new Handler().postDelayed(() -> startActivity(intent), 1000);
         }
 
-        else if (id == R.id.bulbBtn) {
-
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                // Switch to light mode
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                themeButton.setImageResource(R.drawable.bulb);  // Light mode icon
-                themeButton.setBackgroundColor(ContextCompat.getColor(this, R.color.white));  // Light background color
-            } else {
-                // Switch to dark mode
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                themeButton.setImageResource(R.drawable.icons8_light_100);  // Dark mode icon
-                themeButton.setBackgroundColor(ContextCompat.getColor(this, R.color.color_lightPrimary_dark));  // Dark background color
-            }
-        }
-
     }
 
+    private void addAds () {
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
+        // Create a banner ad. The ad size and ad unit ID must be set before calling loadAd.
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getString(R.string.adID));
+
+        // Create an ad request.
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+
+        // Add the AdView to the view hierarchy.
+        layout.addView(adView);
+
+        // Start loading the ad.
+        adView.loadAd(adRequestBuilder.build());
+
+        setContentView(layout);
+    }
 
 }
