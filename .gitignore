@@ -19,3 +19,6 @@ app/src/main/java/com/meshach/tictactoe/CPUPlaying
 app/src/main/java/com/meshach/tictactoe/GamePlay
 app/google-services.json
 app/src/main/res/values/strings.xml
+*.xml
+app/src/main/java/com/meshach/tictactoe/StartUp2.java
+res/values/*
