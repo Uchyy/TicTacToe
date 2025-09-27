@@ -1,103 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/darkblue"
-    android:padding="30dp"
-    tools:context="._GameOver.GameOverActivity">
+    android:layout_height="match_parent"
+    android:background="@drawable/app_white2"
+    tools:context=".StartUp">
 
-
-    <TextView
-        android:id="@+id/textView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="YOU WON!!"
-        android:textColor="@color/gray"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/quitBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.25"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/quitbtn"
-        android:text="QUIT"
-        android:textStyle="bold"
-        android:padding="12dp"
-        android:textColor="@color/darkblue"
-        app:layout_constraintEnd_toStartOf="@+id/againBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/laout_TEXTS"
-        app:layout_constraintWidth_percent="0.45"/>
-
-    <Button
-        android:id="@+id/againBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.45"
-        app:layout_constraintHeight_percent="0.25"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/graytextview"
-        android:padding="12dp"
-        android:text="NEXT ROUND"
-        android:textColor="@color/darkblue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/quitBtn"
-        app:layout_constraintTop_toBottomOf="@+id/laout_TEXTS"/>
-
-
-    <LinearLayout
-        android:id="@+id/laout_TEXTS"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/shadow"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.40"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView01">
+        android:layout_height="match_parent"
+        android:background="@drawable/app_white2">
 
-        <TextView
-            android:id="@+id/textView03"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/alongheavy"
-            android:gravity="center"
-            android:text="X"
-            android:textColor="@color/gray"
-            android:textSize="78sp" />
 
-        <TextView
-            android:id="@+id/textView02"
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="384dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="100dp"
+            android:background="@android:color/darker_gray"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.40"
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.95">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="PICK PLAYER1'S MARK"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/color_primary_dark"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/track"
+                android:padding="0dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonX"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#E8E0B3"
+                    android:fontFamily="@font/alongheavy"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textColor="@color/color_primary_dark"
+                    android:textSize="40sp"
+                    app:layout_constraintEnd_toStartOf="@+id/buttonO"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintWidth_percent="0.45" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonO"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded"
+                    android:fontFamily="@font/alongheavy"
+                    android:gravity="center"
+                    android:text="O"
+                    android:textColor="@color/white"
+                    android:textSize="40sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/buttonX"
+                    app:layout_constraintWidth_percent="0.45" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_weight="1"
+                android:background="#E8E0B3"
+                android:gravity="center"
+                android:text="REMEMBER X GOES FIRST"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/color_primary_dark"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vsCPu"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginTop="44dp"
-            android:fontFamily="@font/alongheavy"
-            android:gravity="center|start"
-            android:text="@string/takes_the_round"
-            android:textColor="@color/gray"
+            android:layout_height="0dp"
+            android:background="@drawable/ylwbutton"
+            android:gravity="center"
+            android:layout_marginTop="100dp"
+            android:padding="20dp"
+            android:text="NEW GAME (VS CPU)"
+            android:textColor="@color/yellowO"
             android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintWidth_percent="0.75" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vsPlayer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bbuebtn"
+            android:gravity="center"
+            android:text="NEW GAME (VS PLAYER)"
+            android:textColor="@color/blueX"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vsCPu"
+            app:layout_constraintWidth_percent="0.75" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewChooseBoard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/white"
+            android:elevation="100dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/backBtn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:background="#E8E0B3"
+                android:drawableStart="@drawable/back_button_foreground"
+                android:maxHeight="48dp"
+                android:text="CHOOSE YOUR BOARD"
+                android:textAlignment="center"
+                android:textColor="@color/color_primary_dark"
+                app:layout_constraintBottom_toTopOf="@+id/by3Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.20"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.80" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/by3Button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/ylwbutton"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="3 X 3"
+                android:textColor="@color/yellowO"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/by5Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/backBtn"
+                app:layout_constraintWidth_percent="0.75" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/by5Button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bbuebtn"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="5 X 5"
+                android:textColor="@color/blueX"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/by3Button"
+                app:layout_constraintWidth_percent="0.75" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageButton
+            android:id="@+id/bulbBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            android:background="#FAEFE9E9"
+            android:contentDescription="@string/settingsbutton"
+            android:layout_gravity="end|center"
+            android:scaleType="fitEnd"
+            ads:srcCompat="@drawable/icons8_light_on_100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.058"
+            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</FrameLayout>
+
+

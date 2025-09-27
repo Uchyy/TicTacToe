@@ -14,17 +14,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="15dp"
         android:layout_weight="1"
-        android:background="@color/darkblue"
+        android:background="@color/color_primary_dark"
         android:letterSpacing="0.3"
         android:padding="15dp"
         android:text="@string/restart"
         android:textAlignment="textEnd"
-        android:textColor="#DACBCB"
-        android:textSize="20sp"
+        android:textColor="@color/color_textPrimary_dark"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintHorizontal_bias="0.959"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.4" />
@@ -33,17 +32,16 @@
         android:id="@+id/sliderMode"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="10dp"
         android:stepSize="50"
         android:value="50"
         android:valueFrom="50"
         android:valueTo="150"
         app:labelBehavior="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.961"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/labelMode"
         app:layout_constraintWidth_percent="0.65"
         app:thumbColor="@color/blueX"
         app:thumbStrokeColor="@color/yellowO"
@@ -51,28 +49,11 @@
         app:trackColorInactive="#DACBCB" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
-        android:letterSpacing="0.3"
-        android:padding="10dp"
-        android:text="@string/difficulty"
-        android:textAlignment="textEnd"
-        android:textColor="#CDBBBB"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.45" />
-
-    <TextView
         android:id="@+id/labelMode"
         android:layout_width="wrap_content"
-        app:layout_constraintWidth_percent="0.2"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="35dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:letterSpacing="0.3"
         android:padding="15dp"
         android:text="@string/easy"
@@ -80,11 +61,9 @@
         android:textColor="@color/blueX"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/sliderMode"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.926"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/restartBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/restartBtn"
+        app:layout_constraintWidth_percent="0.2" />
 
     <include
         android:id="@+id/gameBoardIncluded"
@@ -99,6 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/sliderMode" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -127,7 +107,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
                 android:text="X (WINS)"
-                android:textColor="@color/darkblue"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="12sp" />
 
             <TextView
@@ -138,7 +118,7 @@
                 android:gravity="center"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="@color/darkblue"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="25sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -161,7 +141,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
                 android:text="TIES"
-                android:textColor="@color/darkblue"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="12sp" />
 
             <TextView
@@ -172,7 +152,7 @@
                 android:gravity="center"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="@color/darkblue"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="25sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -195,7 +175,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
                 android:text="O (WINS)"
-                android:textColor="@color/darkblue"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="12sp" />
 
             <TextView
@@ -205,10 +185,24 @@
                 android:fontFamily="@font/bowlby_one"
                 android:gravity="center|top"
                 android:text="0"
-                android:textColor="@color/darkblue"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="25sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.87">
 
     </LinearLayout>
 

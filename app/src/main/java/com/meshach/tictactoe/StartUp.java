@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.GamePlay.GameManager;
+import com.meshach.tictactoe.helpers.ThemeUtils;
 
 import java.util.HashMap;
 
@@ -36,23 +39,39 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
     private MyAnimations anim;
     private Boolean resetGame, newRound;
     private AdView adView, bannerAd;
+    private ImageButton bulbBtn;
+    private FrameLayout startUpMainLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start_up);
 
-        addAds();
+        startUpMainLayout = findViewById(R.id.startUpMainLayout);
+
+        bulbBtn = findViewById(R.id.bulbBtn);
+        boolean isDark = ThemeUtils.isDark(this);
+
+        startUpMainLayout.setBackgroundResource(isDark ? R.drawable.app_bg2 : R.drawable.app_white2);
+        bulbBtn.setBackgroundResource(isDark ? R.color.color_primary_dark : android.R.color.white);
+        bulbBtn.setImageResource(R.drawable.bulb);
+
+        bulbBtn.setOnClickListener(v -> {
+            boolean nowDark = !ThemeUtils.isDark(this);
+            ThemeUtils.setDark(this, nowDark);
+
+            startUpMainLayout.setBackgroundResource(nowDark ? R.drawable.app_bg2 : R.drawable.app_white2);
+            bulbBtn.setBackgroundResource(nowDark ? R.color.color_primary_dark : android.R.color.white);
+            bulbBtn.setImageResource(R.drawable.bulb);
+        });
+
+        //addAds();
 
         Intent intent = getIntent();
         resetGame = intent.getBooleanExtra("resetGame", false);
         Log.d("START-UP RESET VALUE: ", Boolean.toString(resetGame));
         if (resetGame) {
-           /* GameViewModel viewModel = new ViewModelProvider(this).get(GameViewModel.class);
-            viewModel.resetGame();*/
-
             GameManager manager = new GameManager(getApplicationContext(), this);
             manager.reset();
         }
@@ -61,9 +80,6 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
         gameViewModel.resetGame();
 
         newRound = intent.getBooleanExtra("newRound", false);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_up);
         anim = new MyAnimations();
         userPlayer = "O";
 
@@ -93,7 +109,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
 
         if (btn1 instanceof Button && btn2 instanceof Button) {
             btn1.setBackgroundResource(R.drawable.thumb);
-            ((Button) btn1).setTextColor(ContextCompat.getColor(this, R.color.darkblue));
+            ((Button) btn1).setTextColor(ContextCompat.getColor(this, R.color.color_lightPrimary_dark));
 
             btn2.setBackgroundResource(R.drawable.track);
             ((Button) btn2).setTextColor(ContextCompat.getColor(this, R.color.gray));
@@ -103,7 +119,6 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             Toast.makeText(this, "You are Player "+userPlayer+"!", Toast.LENGTH_SHORT).show();
 
         }
-
     }
 
     @Override
