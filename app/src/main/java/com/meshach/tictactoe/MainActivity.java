@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.slider.Slider;
 import com.meshach.tictactoe.Classes.GameViewModel;
 import com.meshach.tictactoe.Classes.Player;
@@ -67,9 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getSupportActionBar() != null) getSupportActionBar().hide();
-
+        MobileAds.initialize(this, initializationStatus -> {});
         addAds();
+
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
 
         // --- Get intent extras ---
         Intent intent = getIntent();
@@ -277,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AdView adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
         adView.setAdUnitId(getString(R.string.adID));
+
         adContainer.addView(adView);
         adView.loadAd(new AdRequest.Builder().build());
     }

@@ -54,6 +54,8 @@
     <string name="next_round">NEXT ROUND</string>
     <string name="x">X</string>
     <string name="adID">ca-app-pub-9303916962676104~9743089347</string>
+    <string name="testID">ca-app-pub-3940256099942544~3347511713</string>
+
     <string name="medium">MEDIUM</string>
     <string name="settingsbutton">settingsButton</string>
     <string name="title_activity_settings">SettingsActivity</string>

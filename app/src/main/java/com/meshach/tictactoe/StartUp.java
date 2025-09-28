@@ -55,7 +55,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
 
         startUpMainLayout.setBackgroundResource(isDark ? R.drawable.app_bg2 : R.drawable.app_white2);
         bulbBtn.setBackgroundResource(isDark ? R.color.color_primary_dark : android.R.color.white);
-        bulbBtn.setImageResource(R.drawable.bulb);
+        bulbBtn.setImageResource(isDark ? R.drawable.icons8_light_100 : R.drawable.bulb);
 
         bulbBtn.setOnClickListener(v -> {
             boolean nowDark = !ThemeUtils.isDark(this);
@@ -63,7 +63,7 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
 
             startUpMainLayout.setBackgroundResource(nowDark ? R.drawable.app_bg2 : R.drawable.app_white2);
             bulbBtn.setBackgroundResource(nowDark ? R.color.color_primary_dark : android.R.color.white);
-            bulbBtn.setImageResource(R.drawable.bulb);
+            bulbBtn.setImageResource(nowDark ? R.drawable.icons8_light_100 : R.drawable.bulb);
         });
 
         //addAds();
@@ -166,27 +166,6 @@ public class StartUp extends AppCompatActivity implements View.OnClickListener{
             new Handler().postDelayed(() -> startActivity(intent), 1000);
         }
 
-    }
-
-    private void addAds () {
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        // Create a banner ad. The ad size and ad unit ID must be set before calling loadAd.
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(getString(R.string.adID));
-
-        // Create an ad request.
-        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-
-        // Add the AdView to the view hierarchy.
-        layout.addView(adView);
-
-        // Start loading the ad.
-        adView.loadAd(adRequestBuilder.build());
-
-        setContentView(layout);
     }
 
 }
