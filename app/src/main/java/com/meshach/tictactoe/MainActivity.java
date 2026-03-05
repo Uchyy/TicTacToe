@@ -274,14 +274,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // --- Ads ---
     private void addAds() {
-        LinearLayout adContainer = findViewById(R.id.adContainer);
-        // --- Ads ---
-        AdView adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(getString(R.string.adID));
+        AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
-        adContainer.addView(adView);
-        adView.loadAd(new AdRequest.Builder().build());
+//        LinearLayout adContainer = findViewById(R.id.adContainer);
+//
+//        AdView adView = new AdView(this);
+//        adView.setAdSize(AdSize.BANNER);
+//        adView.setAdUnitId(getString(R.string.testID));
+//
+//        adContainer.removeAllViews();
+//        adContainer.addView(adView);
+//
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
     }
 
     // --- Lifecycle ---
